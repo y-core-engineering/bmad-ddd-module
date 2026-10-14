@@ -89,6 +89,14 @@ Optional: the workshops mention two BMad skills you can call at any point, and c
 npx skills add bmad-code-org/BMAD-METHOD --skill bmad-party-mode --skill bmad-advanced-elicitation --skill bmad-customize -a claude-code
 ```
 
+### BMad version
+
+ycore-ddd is built and tested against BMad 6.13 (`6.13.0-next` from the BMAD-METHOD repository at the time of writing). It relies on what 6.13 introduced: modules as records with `bmod.toml`, the shared scripts in `_bmad/scripts/`, and a method that builds from `bmad-spec`, `bmad-ticket` and build plans with a `baseline_revision`. Older versions are not supported.
+
+6.13 is not yet a release: the latest release on npm, and the one the `bmad-method` installer sets up, is 6.12.2. Install BMad from the repository as in step 1; `npx skills add bmad-code-org/BMAD-METHOD` takes the current version from its main branch. The module record requires `bmad` 6.13.0-next or later, and `bmad setup` reports when the installed `bmad` is older.
+
+A project set up with BMad 6.12 or earlier (with `epics.md` and `sprint-status.yaml`, or `_bmad/bmm/config.yaml`) needs `claude "bmad migrate method"` before the module is used; the model check finds an epic's files only through the build plans of 6.13. Keep one version per project: BMad skills of an older version installed globally next to 6.13 in the project bring their old steps back, such as an `epics.md`. `claude "bmad status"` shows which modules and versions are installed.
+
 ### Updating
 
 `npx skills add` records every installed skill with its source and hash in `skills-lock.json`. Update them from there:
