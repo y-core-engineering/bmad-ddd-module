@@ -6,3 +6,14 @@ _bmad-output/
 
 # Python
 __pycache__/
+*.py[cod]
+.venv/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local secrets
+.env
+.env.*

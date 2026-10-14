@@ -12,7 +12,7 @@ The Y-Core Method is the delivery method of Y-Core Consulting GmbH. It leads a p
 - the Design-Level Event Storming that turns each context into Aggregates, invariants and permissions,
 - the domain model check that holds the code against both after the build.
 
-The method is unchanged in substance: one question at a time, nothing guessed, every open question a Hotspot that the human decides, and every check run by an agent that has not seen the work it checks. It has been rebuilt as BMad skills so that it works inside BMad's own flow. The other parts of the Y-Core Method, among them idea analysis, architecture concept, delivery planning and the security check, are not part of this module.
+The method is unchanged in substance: one question at a time, nothing guessed, every open question a Hotspot that the human decides, and every check run by an agent that has not seen the work it checks. It has been rebuilt as BMad skills so that it works inside BMad's own flow. The other parts of the Y-Core Method, among them idea analysis, competitive analysis, architecture concept, delivery planning and the security check, are not part of this module. If you are interested in the full method, contact Sebastian Herden at [sebastian.herden@ycore.engineering](mailto:sebastian.herden@ycore.engineering).
 
 ## Where it fits in BMad
 
