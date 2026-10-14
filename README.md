@@ -1,5 +1,10 @@
 # bmad-ddd-module
 
+[![Version](https://img.shields.io/github/v/tag/y-core-engineering/bmad-ddd-module?include_prereleases&color=blue&label=version)](https://github.com/y-core-engineering/bmad-ddd-module/releases)
+[![Tests](https://github.com/y-core-engineering/bmad-ddd-module/actions/workflows/tests.yml/badge.svg)](https://github.com/y-core-engineering/bmad-ddd-module/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![BMad](https://img.shields.io/badge/BMad-6.13-orange)](https://github.com/bmad-code-org/BMAD-METHOD)
+
 Domain-Driven Design for the BMad Method (BMad Community Module, module code `ycore-ddd`).
 
 BMad elicits requirements thoroughly but does not model the domain: Bounded Context, Context Map, Ubiquitous Language, Event Storming and invariants appear in none of its skills. ycore-ddd adds that step. Its artifacts feed BMad's spec, and its PRD and architecture where the work needs them, and after the build it checks the code against the domain model.
