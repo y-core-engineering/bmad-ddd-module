@@ -29,7 +29,7 @@ Read the idea completely and fill this profile, each field `evidenced` (with loc
 
 From the gaps, build a clarification list, each entry with the part of the brief it affects and a priority: A, no meaningful workshop without it (scope, team); B, improves it considerably (external systems, terms, constraints); C, only if time remains.
 
-Before the interview, show at most 15 lines: what you understood in five bullets, the count of open points per priority, and the topic you start with. Then offer the working mode: the Coaching path (the default), the interview below; or the Fast path, where you batch the remaining A and B points into one or two consolidated questions and draft the brief with `[ASSUMPTION]` tags where you inferred. Each `[ASSUMPTION]` is also a preliminary Hotspot, so the checkpoint puts it to the user before anything is final; the Fast path shortens the preparation, never the rounds or the checkpoint. Log the choice.
+Before the interview, show at most 15 lines: what you understood in five bullets, the count of open points per priority, and the topic you start with. Then offer the working mode. The Coaching path, the default: the interview below, a pause after every round, and the checkpoint before the artifacts. The Fast path: you batch the remaining A and B points into one or two consolidated questions and draft the brief with `[ASSUMPTION]` tags where you inferred; after the brief's approval the rounds, the draft artifacts and the reviewer gate run without a halt, up to one final acceptance. Each `[ASSUMPTION]` is also a preliminary Hotspot, so the final acceptance puts it to the user; the Fast path skips pauses, never a decision. Log the choice.
 
 ## Interview
 
@@ -50,6 +50,7 @@ Show the brief before writing it, in at most 25 lines, and write it on approval;
 - `External systems`, with bought-in ones marked.
 - `Preliminary Hotspots`: `🔥 [H01]` onward, question, status open, source entry in the memlog. IDs H01 to the last one are reserved on the board.
 - `Language conflict candidates`: term, meaning for role A versus role B.
+- `Working mode`: `coaching` or `fast`.
 - `Rounds`: maximum number, at least 6 and 6 by default, since rounds 5 and 6 produce the Context Map and the glossary.
 
 Done when `workshop-brief.md` is written and its approval logged, the brief has no statement without a source, and every open point is a Hotspot. Then offer to start facilitation, in this session or a fresh one.

@@ -146,7 +146,7 @@ Like BMad's own planning skills, the two workshops know three intents:
 | update | one revision round on a part you name, then checkpoint and review again |
 | validate | reviewer agents critique the existing artifacts and write a report; nothing is changed |
 
-They offer a Coaching path, the full interview, and a Fast path that drafts the brief or catalog with `[ASSUMPTION]` tags. Every assumption becomes a Hotspot that you decide at the checkpoint, so the Fast path shortens the preparation but skips no decision. Headless, for example in an unattended build loop, the workshops run up to the first point that needs you and stop there; the model check runs completely and returns its result as JSON.
+They offer two working modes. The Coaching path runs the full interview and pauses after every round to put that round's Hotspots to you. The Fast path drafts the brief or catalog with `[ASSUMPTION]` tags and then runs the rounds, the draft artifacts and the reviewer agents without a halt, up to one final acceptance (in the Design Level one per context) in which you decide every assumption and every Hotspot at once. The Fast path skips pauses, never a decision. With Claude Code, Hotspots come as questions with selectable options. Headless, for example in an unattended build loop, the workshops run up to the first point that needs you and stop there; the model check runs completely and returns its result as JSON.
 
 Decisions are kept in memlogs in the domain model folder. Each skill can be customized through `bmad-customize`, for example with additional reviewer lenses (`workflow.finalize_reviewers`) or a closing step (`workflow.on_complete`).
 
