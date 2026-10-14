@@ -114,14 +114,27 @@ sequenceDiagram
 
 ## Working example
 
-[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. Copy it into a project where BMad and ycore-ddd are installed and start the Big Picture with it:
+[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. Copy it into a project where BMad and ycore-ddd are installed:
 
 ```bash
 mkdir -p <your-project>/docs && cp examples/hello-world/idea.md <your-project>/docs/idea.md
-claude "/ycore-ddd-big-picture docs/idea.md"
 ```
 
-Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe.
+1. Big Picture: find the contexts, the Context Map and the glossary.
+
+   ```bash
+   claude "/ycore-ddd-big-picture docs/idea.md"
+   ```
+
+   Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe.
+
+2. Design Level: once the Big Picture is done, design its contexts.
+
+   ```bash
+   claude "/ycore-ddd-design-level"
+   ```
+
+   It reads the Big Picture from the domain model folder, builds the catalog of contexts with you, and writes a `design.md` per context.
 
 ## Working modes
 
