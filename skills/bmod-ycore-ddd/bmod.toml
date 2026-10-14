@@ -2,7 +2,7 @@
 
 [bmod]
 code = "ycore-ddd"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 update_source = "github:y-core-engineering/bmad-ddd-module/skills"
 skills = ["ycore-ddd-big-picture", "ycore-ddd-design-level", "ycore-ddd-model-check"]
 required_skills = [{ skill = "bmad", version = "6.13.0-next", source = "github:bmad-code-org/BMAD-METHOD/skills" }]
