@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Preparation: idea
+    Preparation --> Rounds: workshop-brief.md approved
+    Rounds --> Rounds: round N merged (Coaching: its Hotspots asked)
+    Rounds --> Checkpoint: Coaching, converged
+    Checkpoint --> Review: Coaching, every domain Hotspot settled
+    Review --> Checkpoint: open domain question found
+    Review --> Done: Coaching, no open finding
+    Rounds --> Review: Fast, draft artifacts written
+    Checkpoint --> Done: Fast, final acceptance given
+    Done --> Rounds: revision of a named part
+    Done --> [*]

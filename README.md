@@ -23,23 +23,7 @@ The method is unchanged in substance: one question at a time, nothing guessed, e
 
 ## Where it fits in BMad
 
-```mermaid
-flowchart LR
-    brief["bmad-product-brief<br/>or PRFAQ"] --> bp["ycore-ddd-big-picture<br/>contexts, Context Map, glossary"]
-    bp --> dl["ycore-ddd-design-level<br/>Aggregates, invariants, permissions"]
-    bp -. "detailed requirements" .-> prd["bmad-prd"]
-    dl -. "parts built separately" .-> arch["bmad-architecture"]
-    prd -.-> arch
-    bp --> spec["bmad-spec"]
-    dl --> spec
-    prd --> spec
-    arch --> spec
-    spec --> build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
-    build --> mc["ycore-ddd-model-check<br/>code against the model"]
-    mc -- "code gives way" --> build
-    mc -- "model gives way" --> dl
-    dl -. "context cut in question" .-> bp
-```
+![ycore-ddd in the BMad flow](docs/diagrams/bmad-flow.svg)
 
 In BMad, `bmad-spec` is the hub: every build reads the spec, and the planning skills exist to give it better material. ycore-ddd adds the domain model to that material. `bmad-prd` and `bmad-architecture` are optional steps between the model and the spec, taken when the work needs them:
 
@@ -148,20 +132,7 @@ The skill first asks what is at stake (a hobby, an internal tool or a product la
 
 After each round the facilitator sorts the new Hotspots. Domain questions (scope, a context boundary, a term, a protection need) come to you; technical details such as formats or exit codes go on to the spec under `Open for spec`; what the sources already answer, it answers itself. You decide a domain Hotspot, declare it moot, or defer it with an assumption, an owner and a target step. Each question explains itself: what it is about, who raised it and what follows from each answer, with stickies named by their label and the ID only in brackets. Reviewer agents with a fresh context check boundaries, sources and usability before the handover.
 
-```mermaid
-stateDiagram-v2
-    [*] --> Preparation: idea
-    Preparation --> Rounds: workshop-brief.md approved
-    Rounds --> Rounds: round N merged (Coaching: its Hotspots asked)
-    Rounds --> Checkpoint: Coaching, converged
-    Checkpoint --> Review: Coaching, every domain Hotspot settled
-    Review --> Checkpoint: open domain question found
-    Review --> Done: Coaching, no open finding
-    Rounds --> Review: Fast, draft artifacts written
-    Checkpoint --> Done: Fast, final acceptance given
-    Done --> Rounds: revision of a named part
-    Done --> [*]
-```
+![States of a Big Picture run](docs/diagrams/big-picture-states.svg)
 
 In the Coaching path the reviewers check the finished artifacts; in the Fast path they check the draft, and their domain questions join the single final acceptance.
 
@@ -187,53 +158,17 @@ Check epic 3 against the domain model
 
 The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from the build plans beside the epic's `tickets.toml` (from the oldest `baseline_revision` to `HEAD`); a `Context`/`Path` table in `code-map.md` or in the architecture document assigns them to contexts, and without one it offers to write `code-map.md` with you. Bound to `bmad-retrospective` (step 4 of the installation), it makes every retrospective read the report and refuse an epic with an undecided high finding.
 
-```mermaid
-sequenceDiagram
-    participant You
-    participant Skill as ycore-ddd-model-check
-    participant Checker as Checker (fresh context)
-    You->>Skill: check epic 3
-    Skill->>Skill: scope.py: changed files and their contexts
-    Skill->>Checker: scope and model paths only
-    Checker->>Checker: five checks, refute before report
-    Checker-->>Skill: report with findings FM-n
-    Skill->>Skill: check_report.py: structure and tally
-    Skill-->>You: tally, high findings, boundary findings
-    You->>Skill: per high and medium finding: fix code, update model or accept
-    Skill->>Skill: decisions into the report, status final
-```
+![Sequence of a model check](docs/diagrams/model-check-sequence.svg)
 
 ## Working example
 
 [`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. The example takes it from the idea through the domain model to a built and checked MVP, with an optional extension at the end.
 
-```mermaid
-flowchart LR
-    idea["idea.md"] --> bp["ycore-ddd-big-picture"]
-    bp --> dl["ycore-ddd-design-level"]
-    dl --> spec["bmad-spec"]
-    spec --> build["bmad-build"]
-    build --> mc["ycore-ddd-model-check"]
-```
+![Path of the working example](docs/diagrams/example-flow.svg)
 
 The first trial run of this example took the longer path, with a PRD, an architecture spine and epics between the domain model and the build. Its chain, with the domain model in `docs/domain`:
 
-```mermaid
-flowchart LR
-  idea["Idea<br/>docs/idea.md"] --> bp["Big Picture<br/>docs/domain/"]
-  bp --> dl["Design Level<br/>docs/domain/bc01-programm/design.md"]
-  dl --> prd["PRD<br/>prd.md + addendum.md"]
-  bp --> prd
-  prd --> spine["Architecture<br/>ARCHITECTURE-SPINE.md"]
-  dl --> spine
-  spine --> spec["Spec<br/>SPEC.md + companions"]
-  prd --> spec
-  spec --> epics["Epics and stories<br/>epics.md"]
-  spine --> epics
-  epics --> next["next step<br/>build, stories 1.1 to 1.3"]
-  next -.-> mc["ycore-ddd-model-check<br/>code against the model"]
-  mc -.-> retro["bmad-retrospective<br/>epic accepted or not"]
-```
+![Chain of the first trial run](docs/diagrams/example-trial-run.svg)
 
 The dashed steps had not run yet: after the build, the model check holds the code against the domain model, and the retrospective then accepts the epic, which with the binding described under Usage it does not while a high finding is undecided.
 
@@ -374,6 +309,8 @@ npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --
 ```
 
 Then ask the `bmad` skill for `setup`. The scripts in each skill have tests: `uv run python -m unittest discover -s scripts/tests` inside the skill folder.
+
+The diagrams in this README are rendered from their Mermaid sources in `docs/diagrams/*.mmd` to SVG. After changing a source, render it again with the local renderer from the Y-Core tools (`mermaid-render.sh docs/diagrams`) and commit the `.mmd` together with its `.svg`.
 
 ## Licence
 
