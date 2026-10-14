@@ -184,6 +184,23 @@ flowchart LR
     build --> mc["ycore-ddd-model-check"]
 ```
 
+The first trial run of this example took the longer path, with a PRD, an architecture spine and epics between the domain model and the build. Its chain, with the domain model in `docs/domain`:
+
+```mermaid
+flowchart LR
+  idea["Idea<br/>docs/idea.md"] --> bp["Big Picture<br/>docs/domain/"]
+  bp --> dl["Design Level<br/>docs/domain/bc01-programm/design.md"]
+  dl --> prd["PRD<br/>prd.md + addendum.md"]
+  bp --> prd
+  prd --> spine["Architecture<br/>ARCHITECTURE-SPINE.md"]
+  dl --> spine
+  spine --> spec["Spec<br/>SPEC.md + companions"]
+  prd --> spec
+  spec --> epics["Epics and stories<br/>epics.md"]
+  spine --> epics
+  epics --> next["next step<br/>build, stories 1.1 to 1.3"]
+```
+
 ### 0. Set up a project
 
 The example needs BMad's method skills for the spec and the build, and a Git repository, since `bmad-build` ends with a commit.
