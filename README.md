@@ -199,7 +199,11 @@ flowchart LR
   spec --> epics["Epics and stories<br/>epics.md"]
   spine --> epics
   epics --> next["next step<br/>build, stories 1.1 to 1.3"]
+  next -.-> mc["ycore-ddd-model-check<br/>code against the model"]
+  mc -.-> retro["bmad-retrospective<br/>epic accepted or not"]
 ```
+
+The dashed steps had not run yet: after the build, the model check holds the code against the domain model, and the retrospective then accepts the epic, which with the binding described under Usage it does not while a high finding is undecided.
 
 ### 0. Set up a project
 
