@@ -42,7 +42,7 @@ The folder is the ID and the name in lower-case ASCII: umlauts and ß transliter
 
 Propose a depth per context: `full` for Core and MVP-relevant contexts, a team run; `lean` for Generic, simple Supporting or postponed contexts, a short design note without a team. Propose an order of the full runs by risk: open Hotspots, compliance constraints, external dependencies, upstream position in the Context Map. Both are proposals for the interview, not decisions.
 
-From the gaps, build a clarification list, each entry with what depends on it and a priority: A, no meaningful run without it (context boundaries, depth and order, blocking Hotspots); B, clearly better runs (constraints, roles); C, only if time remains. Before the interview, show at most 15 lines: the judgement of the input, contexts with proposed depth, proposed order, open points per priority. Then offer the working mode: the Coaching path (the default), the interview below; or the Fast path, where you batch the remaining A and B points into one or two consolidated questions and draft the catalog with `[ASSUMPTION]` tags. Each `[ASSUMPTION]` also becomes a Hotspot of its context, so that context's checkpoint puts it to the user; the Fast path shortens the catalog, never a run or its checkpoint. Log the choice.
+From the gaps, build a clarification list, each entry with what depends on it and a priority: A, no meaningful run without it (context boundaries, depth and order, blocking Hotspots); B, clearly better runs (constraints, roles); C, only if time remains. Before the interview, show at most 15 lines: the judgement of the input, contexts with proposed depth, proposed order, open points per priority. Then offer the working mode. The Coaching path, the default: the interview below, a pause after every round, and each context's checkpoint before its design. The Fast path: you batch the remaining A and B points into one or two consolidated questions and draft the catalog with `[ASSUMPTION]` tags; after the catalog's approval each context runs without a halt up to its own final acceptance, and the next context starts without asking. Each `[ASSUMPTION]` also becomes a Hotspot of its context, so that context's final acceptance puts it to the user; the Fast path skips pauses, never a decision. Log the choice.
 
 ## Interview
 
@@ -60,6 +60,7 @@ Show the catalog in at most 25 lines and write it on approval; show only changed
 - `## Constraints`: per full context, each constraint with its source.
 - `## Team`: the Domain Experts per full context.
 - `## Blocking Hotspots`: ID, question, which context and round it blocks, source.
+- `## Working mode`: `coaching` or `fast`.
 - `## Rounds`: the maximum per run.
 
 Done when the catalog is written and its approval logged, `uv run {skill-root}/scripts/check_design.py --folder {domain_model_folder} --status` reports no `catalog_problems` and no `catalog_stale`, every constraint has a source, every Aggregate candidate is marked as candidate, and every open point is a Hotspot at its context. Then offer the first run, or the lean notes, in this session or a fresh one.

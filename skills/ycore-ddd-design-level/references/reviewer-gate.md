@@ -8,6 +8,8 @@ Then dispatch every entry of `{workflow.finalize_reviewers}` as a parallel subag
 
 ## At handover
 
+In the Fast path the gate runs before the final acceptance, on the draft: apply what changes no domain content as below, turn every finding that needs a domain answer into a Hotspot on the board, log it, set the status to `checkpoint` and stop here; the final acceptance settles all of them at once and ends the run. The rest of this section describes the Coaching path.
+
 Apply what changes no domain content: a missing source, a term spelled unlike the glossary, an ID that does not resolve. A finding that needs a domain answer (an Aggregate boundary, an invariant, a permission, a defence) is not yours to settle: make it a Hotspot on the board, log it, set the status back to `checkpoint` and stop here: the skill routes again and loads the checkpoint rules, which put it to the user. Log every applied fix.
 
 When no finding is left that needs the user, run the check again, set the status to `done` and log the event. Tell the user, tiered: one sentence of verdict, the fixes applied, where the full reviews lie, and the next context from `--status`.
