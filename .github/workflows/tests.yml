@@ -1,0 +1,32 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Run the script tests of every skill
+        run: |
+          status=0
+          for tests in skills/*/scripts/tests; do
+            [ -d "$tests" ] || continue
+            skill="$(dirname "$(dirname "$tests")")"
+            echo "::group::$skill"
+            (cd "$skill" && python -m unittest discover -s scripts/tests -v) || status=1
+            echo "::endgroup::"
+          done
+          exit $status
