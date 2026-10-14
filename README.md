@@ -136,6 +136,92 @@ sequenceDiagram
     You->>You: decide per finding: code or model gives way
 ```
 
+## Working example
+
+[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. The example takes it from the idea through the domain model to a built and checked MVP, with an optional extension at the end.
+
+```mermaid
+flowchart LR
+    idea["idea.md"] --> bp["ycore-ddd-big-picture"]
+    bp --> dl["ycore-ddd-design-level"]
+    dl --> spec["bmad-spec"]
+    spec --> build["bmad-build"]
+    build --> mc["ycore-ddd-model-check"]
+```
+
+### 0. Set up a project
+
+The example needs BMad's method skills for the spec and the build, and a Git repository, since `bmad-build` ends with a commit.
+
+```bash
+mkdir hello-world && cd hello-world && git init
+mkdir -p docs && curl -fsSL -o docs/idea.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/idea.md
+npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmod-method --skill bmad-spec --skill bmad-build -a claude-code
+npx skills add y-core-engineering/ycore-ddd -a claude-code
+claude "bmad setup"
+```
+
+Accept the defaults; the domain model then lands in `docs/ddd`.
+
+### 1. Big Picture: find the contexts
+
+```bash
+claude "/ycore-ddd-big-picture docs/idea.md"
+```
+
+For an idea this small, choose DDD-lite and the Fast path when asked: the rounds then run without a halt, and you decide every Hotspot in one final acceptance. Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe. The result is `context-map.md`, `ubiquitous-language.md` and `event-storming.md` in `docs/ddd`.
+
+### 2. Design Level: design the contexts
+
+```bash
+claude "/ycore-ddd-design-level"
+```
+
+It reads the Big Picture, builds the catalog of contexts with you, and writes a `design.md` per context with Commands, invariants and their sources. The catalog proposes a full team run or a lean note per context; for this idea a lean note is a reasonable choice.
+
+### 3. Spec: what exactly to build
+
+```bash
+claude "/bmad-spec create a spec from docs/idea.md and the domain model in docs/ddd"
+```
+
+`bmad-spec` condenses the idea and the domain model into the spec that every build reads. The decisions from your Hotspots, such as the exit code on a closed pipe, become its requirements. A larger product would add `bmad-prd` and `bmad-architecture` before this step; for one program built in one session the spec is enough.
+
+### 4. Build the MVP
+
+Start a fresh session for the build:
+
+```bash
+claude "/bmad-build build the spec"
+```
+
+`bmad-build` plans the work and asks you to approve the plan, implements it with tests, reviews it with an agent and presents a commit. It never pushes. Afterwards the program prints `hello world` when you call it from the shell.
+
+### 5. Model check: does the code match the model?
+
+```bash
+claude "/ycore-ddd-model-check codebase"
+```
+
+A checker with a fresh context holds the code against glossary, Context Map and design and writes a report to `_bmad-output/ddd-reviews/`. Each finding names the place in the code and its counterpart in the model; you decide whether the code or the model gives way, and a code fix goes back to `bmad-build`.
+
+### 6. Optional: extend the MVP
+
+[`examples/hello-world/extension.md`](examples/hello-world/extension.md) lets the program greet by name. The original idea kept parameters out of scope, so the change starts in the model, not in the code:
+
+```bash
+curl -fsSL -o docs/extension.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/extension.md
+claude "/ycore-ddd-big-picture update with docs/extension.md"
+claude "/ycore-ddd-design-level update the context the extension touches"
+claude "/bmad-spec update the spec with docs/extension.md and the domain model in docs/ddd"
+claude "/bmad-build build the spec change"
+claude "/ycore-ddd-model-check codebase"
+```
+
+The update runs one revision round on the part the extension touches, so the new parameter, its term in the glossary and Hotspots such as an empty name, a name with spaces or a very long one are decided before anyone codes them.
+
+To see what the model check is for, try the shortcut once: build the extension straight from `docs/extension.md` with `bmad-build` and skip the model update. The check then reports the name parameter as domain logic in the code that the model lacks, with its place in the code and where it would have to stand in the model.
+
 ## Working modes
 
 Like BMad's own planning skills, the two workshops know three intents:
