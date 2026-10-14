@@ -75,6 +75,19 @@ Optional: the workshops mention two BMad skills you can call at any point, and c
 npx skills add bmad-code-org/BMAD-METHOD --skill bmad-party-mode --skill bmad-advanced-elicitation --skill bmad-customize -a claude-code
 ```
 
+### Updating
+
+`npx skills add` records every installed skill with its source and hash in `skills-lock.json`. Update them from there:
+
+```bash
+npx skills update -p             # all project skills, ycore-ddd and BMad alike
+npx skills update ycore-ddd-big-picture ycore-ddd-design-level   # only the ones you name
+```
+
+Running the install command from step 2 again also works; it overwrites the skill folders with the current version. If the new version brings new settings or requires further skills, run `claude "bmad setup"` afterwards so `_bmad/` catches up.
+
+Then start a new Claude Code session. A running session keeps the skill list it started with and may not see new or renamed skills.
+
 ## Usage
 
 ### 1. Big Picture: from the idea to the contexts
