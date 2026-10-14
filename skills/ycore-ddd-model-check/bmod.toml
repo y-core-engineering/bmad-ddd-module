@@ -1,0 +1,3 @@
+[skill]
+bmod = "bmod-ycore-ddd"
+source = "github:y-core-engineering/ycore-ddd/skills"

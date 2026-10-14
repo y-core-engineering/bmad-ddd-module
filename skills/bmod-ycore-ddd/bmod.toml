@@ -1,0 +1,22 @@
+# Everything true of the whole ycore-ddd module. Unknown keys and tables are ignored.
+
+[bmod]
+code = "ycore-ddd"
+version = "0.1.0"
+update_source = "github:y-core-engineering/ycore-ddd/skills"
+skills = ["ycore-ddd-big-picture", "ycore-ddd-model-check"]
+required_skills = [{ skill = "bmad", version = "6.13.0-next", source = "github:bmad-code-org/BMAD-METHOD/skills" }]
+pre_install_message = ""
+post_install_message = ""
+
+# Asked by `bmad setup` in this order. Members read each answer as modules.ycore-ddd.<key>.
+# `scope = "user"` makes an answer personal and uncommitted; leave it out for a team answer.
+[[bmod.config_questions]]
+key = "domain_model_folder"
+prompt = "Where does the domain model live (ubiquitous-language.md, context-map.md, <context>/design.md)?"
+default = "{project-root}/docs/ddd"
+
+[[bmod.config_questions]]
+key = "review_folder"
+prompt = "Where should domain model check reports go?"
+default = "{output_folder}/ddd-reviews"

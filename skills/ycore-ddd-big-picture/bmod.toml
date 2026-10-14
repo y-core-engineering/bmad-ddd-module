@@ -1,0 +1,7 @@
+[skill]
+bmod = "bmod-ycore-ddd"
+source = "github:y-core-engineering/ycore-ddd/skills"
+
+# This skill's own needs, on top of the module's. A plain name is a skill from this module's
+# source; a table names one from elsewhere: { skill = "...", source = "github:<owner>/<repo>/<path>" }.
+recommended_skills = ["ycore-ddd-model-check"]
