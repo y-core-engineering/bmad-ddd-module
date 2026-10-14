@@ -114,7 +114,7 @@ sequenceDiagram
 
 ## Working example
 
-[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. The example takes it from the idea through the domain model to a built and checked MVP.
+[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. The example takes it from the idea through the domain model to a built and checked MVP, with an optional extension at the end.
 
 ```mermaid
 flowchart LR
@@ -180,6 +180,23 @@ claude "/ycore-ddd-model-check codebase"
 ```
 
 A checker with a fresh context holds the code against glossary, Context Map and design and writes a report to `_bmad-output/ddd-reviews/`. Each finding names the place in the code and its counterpart in the model; you decide whether the code or the model gives way, and a code fix goes back to `bmad-build`.
+
+### 6. Optional: extend the MVP
+
+[`examples/hello-world/extension.md`](examples/hello-world/extension.md) lets the program greet by name. The original idea kept parameters out of scope, so the change starts in the model, not in the code:
+
+```bash
+curl -fsSL -o docs/extension.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/extension.md
+claude "/ycore-ddd-big-picture update with docs/extension.md"
+claude "/ycore-ddd-design-level update the context the extension touches"
+claude "/bmad-spec update the spec with docs/extension.md and the domain model in docs/ddd"
+claude "/bmad-build build the spec change"
+claude "/ycore-ddd-model-check codebase"
+```
+
+The update runs one revision round on the part the extension touches, so the new parameter, its term in the glossary and Hotspots such as an empty name, a name with spaces or a very long one are decided before anyone codes them.
+
+To see what the model check is for, try the shortcut once: build the extension straight from `docs/extension.md` with `bmad-build` and skip the model update. The check then reports the name parameter as domain logic in the code that the model lacks, with its place in the code and where it would have to stand in the model.
 
 ## Working modes
 
