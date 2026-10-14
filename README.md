@@ -4,6 +4,8 @@
 [![Tests](https://github.com/y-core-engineering/bmad-ddd-module/actions/workflows/tests.yml/badge.svg)](https://github.com/y-core-engineering/bmad-ddd-module/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![BMad](https://img.shields.io/badge/BMad-6.13-orange)](https://github.com/bmad-code-org/BMAD-METHOD)
+[![Tested with Claude Code](https://img.shields.io/badge/tested%20with-Claude%20Code-d97757)](https://claude.com/claude-code)
+[![Requires uv](https://img.shields.io/badge/requires-uv-de5fe9)](https://docs.astral.sh/uv/)
 
 Domain-Driven Design for the BMad Method (BMad Community Module, module code `ycore-ddd`).
 
@@ -54,6 +56,15 @@ Two connections matter for the model check later. Ask `bmad-architecture` to rec
 | `ycore-ddd-big-picture` | `context-map.md`, `ubiquitous-language.md`, `event-storming.md` | "big picture event storming", "find the bounded contexts" |
 | `ycore-ddd-design-level` | `design-level-catalog.md`, one `<bc-id>-<name>/design.md` per context | "design the aggregates for Ordering", "find the invariants of a bounded context" |
 | `ycore-ddd-model-check` | a review report with findings `FM-<n>` and your decision on each; accepted deviations in `accepted-deviations.md` | "check epic 3 against the domain model", "domain model check" |
+
+## Requirements
+
+- BMad 6.13, see [BMad version](#bmad-version) below.
+- [uv](https://docs.astral.sh/uv/): every skill runs its own scripts and BMad's shared scripts with `uv run`, and `uv` provides Python 3.11 or later for them.
+- Git: the model check takes its scope from commits, and `bmad-build` ends with a commit.
+- An agent that can run subagents. The workshops run their expert teams and reviewers as subagents, and the model check runs its checker in a fresh one.
+
+The module is tested with Claude Code. `npx skills add` also installs it for other agents that read Agent Skills, such as OpenCode, Codex or Cursor, but none of them has been tried. Where an agent has no subagents, the skills run the roles one after another in the same context and mark the result as not independent; without a question tool, they ask in plain text.
 
 ## Installation
 
