@@ -1,6 +1,6 @@
 ---
 name: ycore-ddd-model-check
-description: 'Checks code against the DDD domain model. Use when the user says "check the code against the domain model", "domain model check", "check epic 3 against glossary and context map" or "does the codebase still respect the bounded contexts".'
+description: 'Checks code against the DDD domain model. Use when the user says "check the code against the domain model", "domain model check", "check epic 3 against glossary and context map", "does the codebase still respect the bounded contexts" or "bind the model check to the retrospective".'
 ---
 # Domain model check
 
@@ -13,6 +13,8 @@ You answer whether the code reflects the domain model (glossary, Context Map, De
 3. Headless (a `headless: true` flag, no interactive user, or a caller such as an unattended build loop or `bmad-retrospective` that pre-supplies the inputs): read `references/headless.md` fully and follow it for the whole run. Otherwise greet `{user_name}` in `{communication_language}` and stay in that language. When the request is a review of the diff itself rather than of its fit to the domain model, suggest `bmad-code-review` before continuing.
 
 ## Scope
+
+When the request is only to bind the retrospective, follow the section on binding the retrospective and stop there; no check runs.
 
 The mode comes from the request: `epic <name>` after an epic is built, `plan <file>` for one build plan, `range <base>..<head>`, or `codebase`, optionally narrowed to named contexts. When the request names none, propose `range` from the merge base with the default branch to `HEAD` and wait for a yes. For an epic, its folder is the one under `{output_folder}` that holds the epic's `tickets.toml` and build plans; ask when several match.
 
@@ -49,4 +51,8 @@ List the `low` findings together; the user decides them together or leaves them 
 
 Offer the follow-ups the decisions named, and `bmad-retrospective` when the epic is otherwise complete. Then run `{workflow.on_complete}` when it is not empty; to change it, invoke the `bmad-customize` skill and name `workflow.on_complete`, saying so when it is not installed.
 
-When the user wants the retrospective to rely on this check, or after the first final report, offer it once: invoke the `bmad-customize` skill to append the text of `{skill-root}/assets/retrospective-step.md` to `workflow.activation_steps_append` of `bmad-retrospective`, as a team override. A module cannot ship that override itself, and you never write under `_bmad/custom/` yourself.
+After the first final report, offer once to bind the retrospective, unless it is bound already.
+
+## Binding the retrospective
+
+A module cannot ship an override for another skill, so the binding is made per project, at setup or later. It is in place when `{project-root}/_bmad/custom/bmad-retrospective.toml` contains the line that starts with "ycore-ddd domain model check"; then say so and change nothing. Otherwise check that `bmad-retrospective` and `bmad-customize` are installed, and name what is missing with a pointer to the Installation section of the module's README. Then invoke the `bmad-customize` skill to append the text of `{skill-root}/assets/retrospective-step.md` to `workflow.activation_steps_append` of `bmad-retrospective` as a team override, and tell the user what it does: every retrospective reads this check's report for its epic, runs the check headless when the report is missing, and does not accept an epic with an undecided high finding. You read that file but never write under `_bmad/custom/` yourself; removing the binding also goes through `bmad-customize`.

@@ -7,7 +7,7 @@ update_source = "github:y-core-engineering/bmad-ddd-module/skills"
 skills = ["ycore-ddd-big-picture", "ycore-ddd-design-level", "ycore-ddd-model-check"]
 required_skills = [{ skill = "bmad", version = "6.13.0-next", source = "github:bmad-code-org/BMAD-METHOD/skills" }]
 pre_install_message = ""
-post_install_message = ""
+post_install_message = "To make bmad-retrospective use the domain model check, run once: claude \"/ycore-ddd-model-check bind the retrospective\" (needs bmad-retrospective and bmad-customize)."
 
 # Asked by `bmad setup` in this order. Members read each answer as modules.ycore-ddd.<key>.
 # `scope = "user"` makes an answer personal and uncommitted; leave it out for a team answer.
