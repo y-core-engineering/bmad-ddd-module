@@ -80,6 +80,26 @@ class CheckReportTest(unittest.TestCase):
         code, out = self.run_on(text)
         self.assertEqual(out["checks_unaccounted"], [4])
 
+    def run_decisions(self, text):
+        path = self.root / "review.md"
+        path.write_text(text)
+        proc = subprocess.run([sys.executable, str(SCRIPT), "--report", str(path), "--project-root",
+                               str(self.root), "--require-decisions"], capture_output=True, text=True)
+        return proc.returncode, json.loads(proc.stdout)
+
+    def test_decisions_required_for_high_and_medium(self):
+        rows = ("| FM-1 | 2 | high | Ordering | src/order.py:3 | K-1 | yes | x | y |\n"
+                "| FM-2 | 4 | medium | Ordering | src/order.py:7 | K-2 | yes | x | y |\n"
+                "| FM-3 | 4 | low | Ordering | src/order.py:8 | K-2 | yes | x | y |\n")
+        decisions = ("\n## Decisions\n| Finding | Decision | Follow-up |\n| --- | --- | --- |\n"
+                     "| FM-1 | fix in code | bmad-build: route access through ACL |\n")
+        code, out = self.run_decisions("---\nstatus: draft\n---\n" + report(rows) + decisions)
+        self.assertEqual(code, 1)
+        self.assertEqual(out["decisions_missing"], ["FM-2", "status: final"])
+        decisions += "| FM-2 | accept deviation | DEV-01 in accepted-deviations.md |\n"
+        code, out = self.run_decisions("---\nstatus: final\n---\n" + report(rows) + decisions)
+        self.assertEqual(code, 0, out)
+
     def test_missing_report(self):
         proc = subprocess.run([sys.executable, str(SCRIPT), "--report", str(self.root / "no.md"),
                                "--project-root", str(self.root)], capture_output=True, text=True)

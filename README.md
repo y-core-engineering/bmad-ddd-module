@@ -120,7 +120,7 @@ The first run builds a catalog of the contexts with you: which get a full team r
 Check epic 3 against the domain model
 ```
 
-The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing; per finding you decide whether the code or the model gives way.
+The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from BMad's build plans, and a `code-map.md` in the domain model folder assigns them to contexts. If you want, it binds itself to `bmad-retrospective`, which then does not accept an epic with an undecided high finding.
 
 ```mermaid
 sequenceDiagram
