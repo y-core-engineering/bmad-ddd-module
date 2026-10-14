@@ -1,0 +1,15 @@
+flowchart LR
+    brief["bmad-product-brief<br/>or PRFAQ"] --> bp["ycore-ddd-big-picture<br/>contexts, Context Map, glossary"]
+    bp --> dl["ycore-ddd-design-level<br/>Aggregates, invariants, permissions"]
+    bp -. "detailed requirements" .-> prd["bmad-prd"]
+    dl -. "parts built separately" .-> arch["bmad-architecture"]
+    prd -.-> arch
+    bp --> spec["bmad-spec"]
+    dl --> spec
+    prd --> spec
+    arch --> spec
+    spec --> build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
+    build --> mc["ycore-ddd-model-check<br/>code against the model"]
+    mc -- "code gives way" --> build
+    mc -- "model gives way" --> dl
+    dl -. "context cut in question" .-> bp

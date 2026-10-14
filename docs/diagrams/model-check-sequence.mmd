@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant You
+    participant Skill as ycore-ddd-model-check
+    participant Checker as Checker (fresh context)
+    You->>Skill: check epic 3
+    Skill->>Skill: scope.py: changed files and their contexts
+    Skill->>Checker: scope and model paths only
+    Checker->>Checker: five checks, refute before report
+    Checker-->>Skill: report with findings FM-n
+    Skill->>Skill: check_report.py: structure and tally
+    Skill-->>You: tally, high findings, boundary findings
+    You->>Skill: per high and medium finding: fix code, update model or accept
+    Skill->>Skill: decisions into the report, status final
