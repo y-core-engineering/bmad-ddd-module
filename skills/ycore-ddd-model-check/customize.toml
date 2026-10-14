@@ -1,0 +1,24 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Customization surface for ycore-ddd-model-check.
+# Team overrides:     {project-root}/_bmad/custom/ycore-ddd-model-check.toml
+# Personal overrides: {project-root}/_bmad/custom/ycore-ddd-model-check.user.toml
+#
+# Merge rules: scalars override, arrays append, tables merge key by key,
+# arrays of tables merge by `code` or `id`.
+
+[workflow]
+
+# Instructions run before config is loaded.
+activation_steps_prepend = []
+
+# Instructions run after activation, before the work begins.
+activation_steps_append = []
+
+# Standing context for the whole run: literal sentences, or `file:` paths and
+# globs under {project-root} whose contents are loaded as facts.
+persistent_facts = []
+
+# Run after the report has been presented. A string or an array of strings;
+# empty for none.
+on_complete = ""

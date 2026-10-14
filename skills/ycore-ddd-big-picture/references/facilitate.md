@@ -2,7 +2,7 @@
 
 Contents: team · sticky notation · files and writing model · rounds · checkpoint · final artifacts · done.
 
-You are the facilitator of the workshop that `{domain_model_folder}/workshop-brief.md` describes, and you orchestrate a team of subagents through it. `{domain_model_folder}` and the artifact language come from the skill's activation. You merge contributions onto one board, synthesise, resolve conflicts and decide when to iterate; you invent no domain content. The run resumes from the files: the first line of `board.md` is `Status: round <N> | …` after round N is finished, `Status: checkpoint | …` during the checkpoint and the writing of the artifacts, `Status: revision <N> | <part>` while a revision round runs, and `Status: done | …` once the artifacts are written and checked. A `rounds/round-<NN>/` folder beyond the last finished round is a round under way, also round 1 before `board.md` exists: assign only its missing or empty files, then merge.
+You are the facilitator of the workshop that `{domain_model_folder}/workshop-brief.md` describes, and you orchestrate a team of subagents through it. `{domain_model_folder}` and the artifact language come from the skill's activation. You merge contributions onto one board, synthesise, resolve conflicts and decide when to iterate; you invent no domain content. The run resumes from the files: the first line of `board.md` is `Status: round <N> | …` after round N is finished, `Status: checkpoint | …` during the checkpoint and the writing of the artifacts, `Status: revision <N> | <part>` while a revision round runs, and `Status: review | …` once the artifacts are written and checked; the reviewer gate sets `done`. A `rounds/round-<NN>/` folder beyond the last finished round is a round under way, also round 1 before `board.md` exists: assign only its missing or empty files, then merge.
 
 ## Team
 
@@ -31,7 +31,7 @@ Every sticky on the board carries emoji, stable ID and short label. Events are i
 
 - `rounds/round-<NN>/<role>.md`: one participant's stickies for one round. A new folder per round, a new file per participant; earlier files are never changed, corrections come in the next round. Every sticky stays traceable to author and round.
 - `board.md`: the wall. First line the status line described at the top of this file; then a timeline table `| # | 🟨 Actor | 🟦 Command | 🟧 Event | 🟪 Policy | 🩷 External | 🟩 Read Model |`; the Hotspot list with status; from round 5, Events grouped under Bounded Context headings.
-- `iterations-log.md`: per round the participant files processed (links), what was added, term conflicts, your decisions and open Hotspots, so a reader sees why the wall looks as it does.
+- `iterations-log.md`: per round the participant files processed (links), what was added, term conflicts, your decisions and open Hotspots, so a reader sees why the wall looks as it does. Each decision also goes into the memlog as it is made; a blocked round is recorded in both, so a resumed session can tell it from one still running.
 
 One file, one writer: each participant writes only its own round file, you alone write board and log, so parallel agents lose nothing. Merge from the round files, never from chat replies: place stickies on the timeline, deduplicate, merge synonyms. Different terms for one thing, or one term for different things, signal a context boundary: such a term is a Hotspot until a boundary separates the meanings or the user decides, never smoothed over.
 
@@ -93,7 +93,7 @@ After the last round's merge, set the status to `checkpoint`; a resumed checkpoi
 - moot: one sentence why it no longer touches the Big Picture;
 - deferred: only on the user's explicit word, with the assumption work continues under, an owner, and the step where it returns (Design-Level of a named context, or architecture). Missing any of the three, it counts as open.
 
-What is not settled here returns in the Design-Level or the architecture and costs many times as much there.
+Log each outcome in the memlog as it is given. What is not settled here returns in the Design-Level or the architecture and costs many times as much there.
 
 ## Final artifacts
 
@@ -113,4 +113,4 @@ Write into `{domain_model_folder}`. `ycore-ddd-model-check` reads the Contexts a
 
 ## Done
 
-Run `uv run {skill-root}/scripts/check_artifacts.py --folder {domain_model_folder}`, `{skill-root}` being the folder above this file's `references/`, and fix what it lists; then set the status to `done`. Done means: the timeline covers the scope with the happy path and the essential edge cases; every context boundary has a reason; every context has its most sensitive data type and protection need and every edge its trust-boundary note; subdomains are classified with Generic marked as a buy candidate; every Hotspot has passed the checkpoint; every round has its folder with one file per participant called; and the script reports no gaps.
+Run `uv run {skill-root}/scripts/check_artifacts.py --folder {domain_model_folder}`, `{skill-root}` being the folder above this file's `references/`, and fix what it lists; then set the status to `review` for the reviewer gate. Ready for review means: the timeline covers the scope with the happy path and the essential edge cases; every context boundary has a reason; every context has its most sensitive data type and protection need and every edge its trust-boundary note; subdomains are classified with Generic marked as a buy candidate; every Hotspot has passed the checkpoint; every round has its folder with one file per participant called; and the script reports no gaps.

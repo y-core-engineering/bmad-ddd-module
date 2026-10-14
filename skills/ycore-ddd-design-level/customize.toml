@@ -1,0 +1,33 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Customization surface for ycore-ddd-design-level.
+# Team overrides:     {project-root}/_bmad/custom/ycore-ddd-design-level.toml
+# Personal overrides: {project-root}/_bmad/custom/ycore-ddd-design-level.user.toml
+#
+# Merge rules: scalars override, arrays append, tables merge key by key,
+# arrays of tables merge by `code` or `id`.
+
+[workflow]
+
+# Instructions run before config is loaded.
+activation_steps_prepend = []
+
+# Instructions run after activation, before the work begins.
+activation_steps_append = []
+
+# Standing context for the whole run: literal sentences, or `file:` paths and
+# globs under {project-root} whose contents are loaded as facts.
+persistent_facts = []
+
+# Run after the designs have been delivered. A string or an array of strings;
+# empty for none.
+on_complete = ""
+
+# Reviewer lenses the gate always runs on a full context before handover, each as
+# its own subagent. Append a lens for your domain; prefix `skill:` to run an
+# installed skill or `file:` to load a lens from a file.
+finalize_reviewers = [
+  "Invariants: for every Aggregate, check that each invariant can be enforced inside one transaction of that Aggregate, that no invariant needs data of another Aggregate, and that every writing Command passes through the Aggregate that owns the invariant; name Aggregates too wide or too narrow.",
+  "Security: check that every Command has a permission a server can enforce, that every abuse case names a defence that actually blocks it, that every invariant touching tenant separation, permissions, purpose limitation or verifiability is marked Security yes, and that every outward edge has at least one abuse case.",
+  "Consistency: hold design.md against context-map.md, ubiquitous-language.md and the catalog; flag Events of the catalog without a Command, terms that differ from the glossary, External Systems not behind an ACL named in the Context Map, and Hotspots deferred without assumption, owner and target step.",
+]

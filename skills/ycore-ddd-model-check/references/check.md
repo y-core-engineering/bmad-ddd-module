@@ -8,8 +8,8 @@ Read the yardstick completely, which is the point of running fresh. In the model
 
 - `ubiquitous-language.md`, the glossary: term, definition, the context it applies in. One `## BC## <Context>` section per context; the same term meaning different things in two contexts is intended, not a finding.
 - `context-map.md`: the `## Contexts` table (ID `BC##`, subdomain, most sensitive data, protection need) and the `## Edges` table (`K-<nn>`, From upstream, To downstream, Pattern, What flows, Trust boundary); rows with ID `X##` are external systems with no code of their own, so an edge to one is checked as an integration through its pattern. The Mermaid diagram is only a view of the tables.
-- `<context>/design.md` per Bounded Context, `<context>` being the context name in kebab-case: Commands with `may:`, Aggregates with `❗` invariants, Events, Policies, Read Models, ACLs. Where a context is modelled lean, its design note is the yardstick, and what it does not name cannot be checked.
-- `invariants.md`, optional, when the project keeps invariants in one list beside the `❗` marks.
+- `<bc-id>-<name>/design.md` per Bounded Context (for example `bc01-ordering/design.md`), from the Design-Level: `Depth: full` or `lean`; under `## Aggregates` one `### <BC>-AGG## <Name>` per Aggregate with its invariants table (`<BC>-INV##`, Security `yes` marks a `❗🔒` invariant, Source); `## Commands` with the `May` column, the permission; `## Events`, `## Policies`, `## Read Models`, `## External Systems and ACLs`, `## Abuse cases`, `## Hotspots`. A lean design names less, and what it does not name cannot be checked. `design-level-catalog.md` lists the contexts and their folders.
+- `invariants.md`, optional, when the project keeps invariants in one list beside the design files.
 
 A file missing under its conventional name: glob the folder for a plausible alternative and name the file you used in the frame. No glossary: check 1 is not run. No Context Map: checks 2 and 4 are not run. Either goes under "Not checked", never into the conclusion as passed.
 
@@ -33,12 +33,12 @@ For every access from one context into another (import, call, query on foreign t
 
 ## Check 3: Invariants
 
-For every `❗` invariant of an Aggregate the subject touches:
+For every invariant of an Aggregate the subject touches:
 
 - Enforcement point, with path and lines. It belongs at the Aggregate or where the architecture says. A check only in the UI or the inbound adapter does not enforce it, because a second entry bypasses it.
 - Every writing path to the same state: bulk change, import, migration, admin tool, event handler. A path past the enforcement point is a finding.
 - A test that tries to break the invariant and checks the rejection. A test of the permitted case only does not count.
-- The permission check at the Command against its `may:`.
+- The permission check at the Command against its `May`. A `May` that holds a Hotspot ID is an open permission: list it under "Not checked" with that ID, never as sound.
 
 ## Check 4: Model coupling
 
@@ -75,4 +75,4 @@ Write it to the report path in the report language, domain terms as the model sp
 
 ## Done
 
-All five checks ran or stand under "Not checked" with a reason; every `❗` invariant of the touched Aggregates is a finding, sound with enforcement point and test, or not checkable; every cross-context access in the subject is assigned to an edge or is a finding; the script reports no gaps. Return the report path and the tally.
+All five checks ran or stand under "Not checked" with a reason; every invariant of the touched Aggregates is a finding, sound with enforcement point and test, or not checkable; every cross-context access in the subject is assigned to an edge or is a finding; the script reports no gaps. Return the report path and the tally.

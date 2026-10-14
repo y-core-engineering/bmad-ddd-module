@@ -1,0 +1,33 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Customization surface for ycore-ddd-big-picture.
+# Team overrides:     {project-root}/_bmad/custom/ycore-ddd-big-picture.toml
+# Personal overrides: {project-root}/_bmad/custom/ycore-ddd-big-picture.user.toml
+#
+# Merge rules: scalars override, arrays append, tables merge key by key,
+# arrays of tables merge by `code` or `id`.
+
+[workflow]
+
+# Instructions run before config is loaded.
+activation_steps_prepend = []
+
+# Instructions run after activation, before the work begins.
+activation_steps_append = []
+
+# Standing context for the whole run: literal sentences, or `file:` paths and
+# globs under {project-root} whose contents are loaded as facts.
+persistent_facts = []
+
+# Run after the artifacts have been delivered. A string or an array of strings;
+# empty for none.
+on_complete = ""
+
+# Reviewer lenses the gate always runs before handover, each as its own subagent.
+# Append a lens for your domain (regulation, a platform rule); prefix `skill:` to
+# run an installed skill or `file:` to load a lens from a file.
+finalize_reviewers = [
+  "Boundaries: for every Bounded Context, check that its boundary rests on a change of language or responsibility named on the board; name contexts that should be split or merged and edges whose direction or pattern contradicts the timeline.",
+  "Traceability: for every context, term, edge and protection need, find its source in the idea, the workshop brief, the memlog or a round file; flag statements without a source and hypotheses presented as decisions.",
+  "Consumer: read the three artifacts as the Design-Level and the PRD would; flag what they could not act on: an edge without trust-boundary note, a context without protection need, a deferred Hotspot without assumption, owner and target step, a glossary term used two ways without conflict note.",
+]
