@@ -89,6 +89,7 @@ A revision round works the same way on the part the user named, in the next `rou
 
 The user has not read the board, so every question has to stand on its own:
 
+- Before the first question of a session, explain once, in the user's language, what the ID prefixes stand for: `E` Domain Event, `C` Command, `A` Actor, `P` Policy, `X` External System, `R` Read Model, `H` Hotspot, `BC` Bounded Context, `K` edge of the Context Map. Add any other prefix the board uses.
 - Before the first question of a batch, say in two or three plain sentences what is being decided and why now: after which round or in which acceptance, how many Hotspots, and what they hang on.
 - Before each question, give its context in plain words: what the Hotspot is about, which role raised it in which round, and what follows from each answer.
 - Name every sticky by its label, with the ID only in brackets after it, for example "'Line visible in the terminal' (E15)". Never a bare ID, and never the board's shorthand for roles, clusters or merges.

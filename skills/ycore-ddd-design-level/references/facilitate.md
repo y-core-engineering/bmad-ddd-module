@@ -91,6 +91,7 @@ Converged when no consistency or term conflict is open and the bar under Finishi
 
 The user has not read the board, so every question has to stand on its own:
 
+- Before the first question of a session, explain once, in the user's language, what the ID prefixes stand for: `E` Domain Event, `C` Command, `A` Actor, `AGG` Aggregate, `INV` invariant, `P` Policy, `R` Read Model, `X` External System, `M` abuse case, `H` Hotspot, and the context's ID as prefix, as in `BC01-AGG01`. Add any other prefix the board uses.
 - Before the first question of a batch, say in two or three plain sentences what is being decided and why now: after which round or in which acceptance, how many Hotspots, and what they hang on.
 - Before each question, give its context in plain words: what the Hotspot is about, which role raised it in which round, and what follows from each answer.
 - Name every sticky by its label, with the ID only in brackets after it, for example "'Line visible in the terminal' (E15)". Never a bare ID, and never the board's shorthand for roles, clusters or merges.
