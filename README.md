@@ -54,7 +54,13 @@ flowchart LR
 
    `-a claude-code` installs for Claude Code. Name your agent instead, or leave the flag out and pick agents interactively; without the agent you work with, its skills folder stays empty.
 
-3. In your agent, ask the `bmad` skill for `setup`. It creates `_bmad/`, asks the questions of every installed module, and offers to install the skills the modules require or recommend, for example `bmad-customize` and `bmad-party-mode`. For ycore-ddd it asks:
+3. Start your agent in the project and call the `bmad` skill with `setup`. With Claude Code:
+
+   ```bash
+   claude "bmad setup"
+   ```
+
+   It creates `_bmad/`, asks the questions of every installed module, and offers to install the skills the modules require or recommend, for example `bmad-customize` and `bmad-party-mode`. For ycore-ddd it asks:
 
 | Setting | Meaning | Default |
 | --- | --- | --- |
