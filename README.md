@@ -170,7 +170,7 @@ The first trial run of this example took the longer path, with a PRD, an archite
 
 ![Chain of the first trial run](docs/diagrams/example-trial-run.svg)
 
-The dashed steps had not run yet: after the build, the model check holds the code against the domain model, and the retrospective then accepts the epic, which with the binding described under Usage it does not while a high finding is undecided.
+After the build, the model check held the code against the domain model, and the retrospective read its report through the binding described under Usage, which refuses an epic while a high finding is undecided.
 
 ### 0. Set up a project
 
