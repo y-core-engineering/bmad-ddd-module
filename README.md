@@ -38,18 +38,42 @@ flowchart LR
 
 ## Installation
 
-The module needs BMad (`bmad`, version 6.13 or later) in the project.
+`npx skills add` copies skill folders and nothing else: it does not read the dependencies a module declares. Those are resolved by BMad's own `bmad setup`, so BMad comes first.
 
-```bash
-npx skills add y-core-engineering/ycore-ddd --skill bmod-ycore-ddd --skill ycore-ddd-big-picture --skill ycore-ddd-design-level --skill ycore-ddd-model-check
-```
+1. Install BMad (version 6.13 or later) into the project:
 
-Then ask the `bmad` skill for `setup ycore-ddd`. It asks two questions:
+   ```bash
+   npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools -a claude-code
+   ```
+
+2. Install this module:
+
+   ```bash
+   npx skills add y-core-engineering/ycore-ddd -a claude-code
+   ```
+
+   `-a claude-code` installs for Claude Code. Name your agent instead, or leave the flag out and pick agents interactively; without the agent you work with, its skills folder stays empty.
+
+3. Start your agent in the project and call the `bmad` skill with `setup`. With Claude Code:
+
+   ```bash
+   claude "bmad setup"
+   ```
+
+   It creates `_bmad/`, asks the questions of every installed module, and checks that the skills a module requires are present. For ycore-ddd it asks:
 
 | Setting | Meaning | Default |
 | --- | --- | --- |
 | `domain_model_folder` | where the domain model lives | `{project-root}/docs/ddd` |
 | `review_folder` | where model check reports go | `{output_folder}/ddd-reviews` |
+
+A ycore-ddd skill started without BMad says so and points here; the skills never install anything themselves. `bmad setup ycore-ddd` shows and changes the answers later.
+
+Optional: the workshops mention two BMad skills you can call at any point, and customization runs through a third. Install them if you want them:
+
+```bash
+npx skills add bmad-code-org/BMAD-METHOD --skill bmad-party-mode --skill bmad-advanced-elicitation --skill bmad-customize -a claude-code
+```
 
 ## Usage
 
