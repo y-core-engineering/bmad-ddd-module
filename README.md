@@ -146,9 +146,25 @@ Like BMad's own planning skills, the two workshops know three intents:
 | update | one revision round on a part you name, then checkpoint and review again |
 | validate | reviewer agents critique the existing artifacts and write a report; nothing is changed |
 
-They offer two working modes. The Coaching path runs the full interview and pauses after every round to put that round's Hotspots to you. The Fast path drafts the brief or catalog with `[ASSUMPTION]` tags and then runs the rounds, the draft artifacts and the reviewer agents without a halt, up to one final acceptance (in the Design Level one per context) in which you decide every assumption and every Hotspot at once. The Fast path skips pauses, never a decision. With Claude Code, Hotspots come as questions with selectable options. Headless, for example in an unattended build loop, the workshops run up to the first point that needs you and stop there; the model check runs completely and returns its result as JSON.
+They offer two working modes. The Coaching path runs the full interview and pauses after every round to put that round's Hotspots to you. The Fast path drafts the brief or catalog with `[ASSUMPTION]` tags and then runs the rounds, the draft artifacts and the reviewer agents without a halt, up to one final acceptance (in the Design Level one per context) in which you decide every assumption and every Hotspot at once. The Fast path skips pauses, never a decision. Both modes start by asking what is at stake (a hobby, an internal tool or a product launch) and scale their depth to it, read the project and the environment before asking, and put only domain questions to you: technical details the agents raise go on to `bmad-spec` and `bmad-architecture` under `Open for spec`. With Claude Code, Hotspots come as questions with selectable options. Headless, for example in an unattended build loop, the workshops run up to the first point that needs you and stop there; the model check runs completely and returns its result as JSON.
 
 Decisions are kept in memlogs in the domain model folder. Each skill can be customized through `bmad-customize`, for example with additional reviewer lenses (`workflow.finalize_reviewers`) or a closing step (`workflow.on_complete`).
+
+## Continuing an interrupted run
+
+If a workshop session ends early, for example when you cancel it during the final acceptance, nothing that was already logged is lost. You can continue in two ways.
+
+Resume the Claude Code session itself. In the project directory, `claude --continue` reopens the last session and `claude --resume` lets you pick one from a list; in the VS Code extension, open it from the list of past conversations. Then ask it to continue where it stopped.
+
+Or start the skill again with the same input:
+
+```text
+/ycore-ddd-big-picture docs/idea.md
+```
+
+The workshops route on the files in the domain model folder, not on the conversation. The first line of `board.md` (per context in the Design Level) holds the status: `round <N>`, `checkpoint`, `revision <N>`, `review` or `done`. A resumed `checkpoint` asks only the Hotspots that have no outcome recorded yet, then completes the artifacts that already exist instead of writing them anew. A resumed `review` runs the reviewer gate first. A round folder beyond the last finished round is a round under way; only its missing or empty contributions are assigned again. Your earlier answers are read back from the memlogs (`big-picture.memlog.md`, `design-level.memlog.md`, `<context>/design.memlog.md`).
+
+An answer you gave in the moment before the session ended may not have reached the memlog. That Hotspot is then asked again.
 
 ## What lands where
 

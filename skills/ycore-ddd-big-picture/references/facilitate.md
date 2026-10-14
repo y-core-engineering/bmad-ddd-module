@@ -51,7 +51,7 @@ Input: board.md as of round <NN-1> (round 1: brief and idea only)
 
 One line per sticky, without IDs; you assign them when merging.
 
-Every assignment names the brief, the idea, from round 2 the board, the exact result path, and ends with this contract verbatim:
+Every assignment says what a Hotspot is at this altitude: a question that changes the scope, a context boundary, a term, an invariant or a protection need. A technical detail such as a format, a code, a signal or platform behaviour is a note on its sticky, not a Hotspot. Every assignment names the brief, the idea, from round 2 the board, the exact result path, and ends with this contract verbatim:
 
 ```text
 1. Result file: <exact path>. Change no other file.
@@ -85,6 +85,16 @@ Converged when no new Events come, no term conflict is unresolved and every cont
 
 A revision round works the same way on the part the user named, in the next `rounds/round-<NN>/` folder; after its merge the status becomes `checkpoint` for the Hotspots it raised, and the affected artifacts are updated.
 
+## Sorting Hotspots
+
+After each merge, sort every new Hotspot before anyone is asked. Only the first kind goes to the user:
+
+- Domain: it changes the scope, a context boundary, a term, an invariant or a protection need. It stays a Hotspot and goes through the checkpoint.
+- Technical detail: formats, codes, signals, platform behaviour, how something is implemented. It becomes an entry under `## Open for spec` on the board, logged, and passes to the final artifacts for `bmad-spec` and `bmad-architecture`; nobody is asked here.
+- Answerable: the idea, the brief, the memlog or the environment already answers it. Answer it yourself, name the source, log it and record it as decided.
+
+How strictly to sort follows the brief's `Stakes`: for a hobby, a domain Hotspot that changes nothing in the context cut can also pass on as an open point.
+
 ## Putting Hotspots to the user
 
 The user has not read the board, so every question has to stand on its own:
@@ -99,9 +109,9 @@ The user has not read the board, so every question has to stand on its own:
 
 ## Checkpoint before the synthesis
 
-In the Fast path the checkpoint is the single final acceptance and comes last: after the last round's merge, write the final artifacts as a draft with the open Hotspots still on the board, run the check script, and set the status to `review`; the reviewer gate runs and returns the run here with the status `checkpoint`. Then present everything at once: every open Hotspot, including those the reviewers raised, grouped by effect on scope, context boundaries and language, each with its options, together with the paths of the draft artifacts. Ask them as the section on putting Hotspots to the user describes, then one closing question to accept the draft. Work every outcome into board and artifacts, log it, run the check script again and set the status to `done`. A Hotspot left without an answer stays open and is asked again on its own. The rest of this section describes the Coaching path.
+In the Fast path the checkpoint is the single final acceptance and comes last: after the last round's merge, write the final artifacts as a draft with the open domain Hotspots still on the board, run the check script, and set the status to `review`; the reviewer gate runs and returns the run here with the status `checkpoint`. Then present everything at once: every open domain Hotspot, including those the reviewers raised, grouped by effect on scope, context boundaries and language, each with its options, together with the paths of the draft artifacts. Ask them as the section on putting Hotspots to the user describes, then one closing question to accept the draft. Work every outcome into board and artifacts, log it, run the check script again and set the status to `done`. A Hotspot left without an answer stays open and is asked again on its own. The rest of this section describes the Coaching path.
 
-After the last round's merge, set the status to `checkpoint`; a resumed checkpoint continues with the Hotspots that have no outcome recorded, and once every Hotspot has one, with the final artifacts, completing and checking files that already exist rather than writing them anew. The run ends only when no domain question is open. Present every Hotspot on the board to the user one at a time, ordered by effect on scope, context boundaries and language, as the section on putting Hotspots to the user describes. Decide nothing and recommend nothing where you lack the domain basis. Each Hotspot ends in one of three states, recorded on the board with decision and date:
+After the last round's merge, set the status to `checkpoint`; a resumed checkpoint continues with the Hotspots that have no outcome recorded, and once every domain Hotspot has one, with the final artifacts, completing and checking files that already exist rather than writing them anew. The run ends only when no domain question is open. Present every domain Hotspot on the board to the user one at a time, ordered by effect on scope, context boundaries and language, as the section on putting Hotspots to the user describes. Decide nothing and recommend nothing where you lack the domain basis. Each Hotspot ends in one of three states, recorded on the board with decision and date:
 
 - decided: the answer is worked into timeline, context cut and glossary;
 - moot: one sentence why it no longer touches the Big Picture;
@@ -121,10 +131,10 @@ Write into `{domain_model_folder}`. `ycore-ddd-model-check` reads the Contexts a
 
 `ubiquitous-language.md`: one section per context, `## BC## <Context>`, table `| Term | Definition | Conflicts |`, Conflicts naming the other context and its meaning. The same term meaning different things in two contexts is intended and stands in both.
 
-`event-storming.md`: the event flow as Mermaid `flowchart LR` (Command → Event chains, Policies as nodes); the subdomain classification with one reason per context; per context a `## BC## <Context>` section with responsibility and the Events it owns (board IDs); the deferred Hotspots with assumption, owner and target step; and which Core contexts to deepen next in a Design-Level, or the DDD-lite note with its reason.
+`event-storming.md`: the event flow as Mermaid `flowchart LR` (Command → Event chains, Policies as nodes); the subdomain classification with one reason per context; per context a `## BC## <Context>` section with responsibility and the Events it owns (board IDs); the deferred Hotspots with assumption, owner and target step; a `## Open for spec` section with the technical details carried over from the board; and which Core contexts to deepen next in a Design-Level, or the DDD-lite note with its reason.
 
 `board.md`, `iterations-log.md` and `rounds/` stay as the derivation.
 
 ## Done
 
-Run `uv run {skill-root}/scripts/check_artifacts.py --folder {domain_model_folder}`, `{skill-root}` being the folder above this file's `references/`, and fix what it lists; then set the status to `review` for the reviewer gate. Ready for review means: the timeline covers the scope with the happy path and the essential edge cases; every context boundary has a reason; every context has its most sensitive data type and protection need and every edge its trust-boundary note; subdomains are classified with Generic marked as a buy candidate; every Hotspot has passed the checkpoint; every round has its folder with one file per participant called; and the script reports no gaps.
+Run `uv run {skill-root}/scripts/check_artifacts.py --folder {domain_model_folder}`, `{skill-root}` being the folder above this file's `references/`, and fix what it lists; then set the status to `review` for the reviewer gate. Ready for review means: the timeline covers the scope with the happy path and the essential edge cases; every context boundary has a reason; every context has its most sensitive data type and protection need and every edge its trust-boundary note; subdomains are classified with Generic marked as a buy candidate; every domain Hotspot has passed the checkpoint and every technical one stands under `## Open for spec`; every round has its folder with one file per participant called; and the script reports no gaps.

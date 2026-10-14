@@ -58,7 +58,7 @@ Input: board.md as of round <NN-1> (round 1: the context's Events from the Big P
 <additions, contradictions, conflicts, citing board IDs>
 ```
 
-Every assignment names the catalog row, the Big-Picture files, from round 2 the board, the exact result path, and ends with this contract verbatim:
+Every assignment says what a Hotspot is at this altitude: a question that changes an Aggregate boundary, an invariant, a permission, a defence or a term. Storage, formats, protocols and frameworks are notes on their sticky, not Hotspots. Every assignment names the catalog row, the Big-Picture files, from round 2 the board, the exact result path, and ends with this contract verbatim:
 
 ```text
 1. Result file: <exact path>. Change no other file.
@@ -87,6 +87,16 @@ After each round: all called files present, merged, board and log written, conve
 
 Converged when no consistency or term conflict is open and the bar under Finishing is met except for the checkpoint; beyond round 7 only delta rounds on what is open, up to the catalog's maximum. A revision round works the same way on the named part, in the next round folder, then returns to the checkpoint.
 
+## Sorting Hotspots
+
+After each merge, sort every new Hotspot before anyone is asked. Only the first kind goes to the user:
+
+- Domain: it changes an Aggregate boundary, an invariant, a permission, a defence against an abuse case, a term, or the context cut. It stays a Hotspot and goes through the checkpoint.
+- Technical detail: storage, formats, protocols, frameworks, how something is implemented. It becomes an entry under `## Open for spec` on the board, logged, and passes into `design.md` for `bmad-spec` and `bmad-architecture`; nobody is asked here.
+- Answerable: the catalog, the Big Picture, the memlogs, existing code or the environment already answer it. Answer it yourself, name the source, log it and record it as decided.
+
+How strictly to sort follows the `Stakes` in the Big-Picture brief: for a hobby, a domain Hotspot that changes no invariant or permission can also pass on as an open point.
+
 ## Putting Hotspots to the user
 
 The user has not read the board, so every question has to stand on its own:
@@ -101,10 +111,10 @@ The user has not read the board, so every question has to stand on its own:
 
 ## Checkpoint
 
-In the Fast path the checkpoint is the context's single final acceptance and comes last: after the synthesis, write `{bc}/design.md` as a draft in the format of the design-format reference with the open Hotspots still listed, run the check, and set the status to `review`; the reviewer gate runs and returns the run here with the status `checkpoint`. Then present everything at once: every open Hotspot of this context, including those the reviewers raised, grouped by effect on Aggregate boundaries, invariants and integration, each with its options, together with the path of the draft design. Ask them as the section on putting Hotspots to the user describes, then one closing question to accept the draft. Work every outcome into board and design, log it, run the check again and set the status to `done`; the skill then starts the next context. A Hotspot left without an answer stays open and is asked again on its own. The rest of this section describes the Coaching path.
+In the Fast path the checkpoint is the context's single final acceptance and comes last: after the synthesis, write `{bc}/design.md` as a draft in the format of the design-format reference with the open domain Hotspots still listed, run the check, and set the status to `review`; the reviewer gate runs and returns the run here with the status `checkpoint`. Then present everything at once: every open domain Hotspot of this context, including those the reviewers raised, grouped by effect on Aggregate boundaries, invariants and integration, each with its options, together with the path of the draft design. Ask them as the section on putting Hotspots to the user describes, then one closing question to accept the draft. Work every outcome into board and design, log it, run the check again and set the status to `done`; the skill then starts the next context. A Hotspot left without an answer stays open and is asked again on its own. The rest of this section describes the Coaching path.
 
-After the synthesis, set the status to `checkpoint` and present every Hotspot of this context to the user one at a time, ordered by effect on Aggregate boundaries, invariants and integration, as the section on putting Hotspots to the user describes. An invariant that rests on an open domain question is a guess in the code. Each Hotspot ends `decided` (worked into the design), `moot` (one sentence why), or `deferred`, only on the user's word, with the assumption work continues under, an owner and the step where it returns; missing one of the three, it is open. A Hotspot about the context cut rather than this context is not decided here: record it `deferred` with the assumption the run continues under, owner `ycore-ddd-big-picture` and target step "Big-Picture revision", and tell the user. Log each outcome as it is given. A resumed checkpoint continues with the Hotspots that have no outcome, then with `design.md`, completing a file that already exists rather than writing it anew.
+After the synthesis, set the status to `checkpoint` and present every domain Hotspot of this context to the user one at a time, ordered by effect on Aggregate boundaries, invariants and integration, as the section on putting Hotspots to the user describes. An invariant that rests on an open domain question is a guess in the code. Each Hotspot ends `decided` (worked into the design), `moot` (one sentence why), or `deferred`, only on the user's word, with the assumption work continues under, an owner and the step where it returns; missing one of the three, it is open. A Hotspot about the context cut rather than this context is not decided here: record it `deferred` with the assumption the run continues under, owner `ycore-ddd-big-picture` and target step "Big-Picture revision", and tell the user. Log each outcome as it is given. A resumed checkpoint continues with the Hotspots that have no outcome, then with `design.md`, completing a file that already exists rather than writing it anew.
 
 ## Finishing
 
-Write `{bc}/design.md` in the format of the design-format reference, run `uv run {skill-root}/scripts/check_design.py --folder {domain_model_folder} --context {bc}`, fix what it lists, then set the status to `review` for the reviewer gate. Ready for review means: every Event of the context has Command, Actor and Aggregate; every Aggregate has checked invariants; every Command its permission; every Aggregate and outward edge its abuse cases with defence; every Hotspot has passed the checkpoint; every round has its folder; and the script reports no gaps.
+Write `{bc}/design.md` in the format of the design-format reference, run `uv run {skill-root}/scripts/check_design.py --folder {domain_model_folder} --context {bc}`, fix what it lists, then set the status to `review` for the reviewer gate. Ready for review means: every Event of the context has Command, Actor and Aggregate; every Aggregate has checked invariants; every Command its permission; every Aggregate and outward edge its abuse cases with defence; every domain Hotspot has passed the checkpoint and every technical one stands under `## Open for spec`; every round has its folder; and the script reports no gaps.
