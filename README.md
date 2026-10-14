@@ -114,27 +114,72 @@ sequenceDiagram
 
 ## Working example
 
-[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. Copy it into a project where BMad and ycore-ddd are installed:
+[`examples/hello-world/idea.md`](examples/hello-world/idea.md) is a deliberately small idea to try the module on: a shell program that prints `hello world`. The example takes it from the idea through the domain model to a built and checked MVP.
 
-```bash
-mkdir -p <your-project>/docs && cp examples/hello-world/idea.md <your-project>/docs/idea.md
+```mermaid
+flowchart LR
+    idea["idea.md"] --> bp["ycore-ddd-big-picture"]
+    bp --> dl["ycore-ddd-design-level"]
+    dl --> spec["bmad-spec"]
+    spec --> build["bmad-build"]
+    build --> mc["ycore-ddd-model-check"]
 ```
 
-1. Big Picture: find the contexts, the Context Map and the glossary.
+### 0. Set up a project
 
-   ```bash
-   claude "/ycore-ddd-big-picture docs/idea.md"
-   ```
+The example needs BMad's method skills for the spec and the build, and a Git repository, since `bmad-build` ends with a commit.
 
-   Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe.
+```bash
+mkdir hello-world && cd hello-world && git init
+mkdir -p docs && curl -fsSL -o docs/idea.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/idea.md
+npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmod-method --skill bmad-spec --skill bmad-build -a claude-code
+npx skills add y-core-engineering/ycore-ddd -a claude-code
+claude "bmad setup"
+```
 
-2. Design Level: once the Big Picture is done, design its contexts.
+Accept the defaults; the domain model then lands in `docs/ddd`.
 
-   ```bash
-   claude "/ycore-ddd-design-level"
-   ```
+### 1. Big Picture: find the contexts
 
-   It reads the Big Picture from the domain model folder, builds the catalog of contexts with you, and writes a `design.md` per context.
+```bash
+claude "/ycore-ddd-big-picture docs/idea.md"
+```
+
+For an idea this small, choose DDD-lite and the Fast path when asked: the rounds then run without a halt, and you decide every Hotspot in one final acceptance. Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe. The result is `context-map.md`, `ubiquitous-language.md` and `event-storming.md` in `docs/ddd`.
+
+### 2. Design Level: design the contexts
+
+```bash
+claude "/ycore-ddd-design-level"
+```
+
+It reads the Big Picture, builds the catalog of contexts with you, and writes a `design.md` per context with Commands, invariants and their sources. The catalog proposes a full team run or a lean note per context; for this idea a lean note is a reasonable choice.
+
+### 3. Spec: what exactly to build
+
+```bash
+claude "/bmad-spec create a spec from docs/idea.md and the domain model in docs/ddd"
+```
+
+`bmad-spec` condenses the idea and the domain model into the spec that every build reads. The decisions from your Hotspots, such as the exit code on a closed pipe, become its requirements. A larger product would add `bmad-prd` and `bmad-architecture` before this step; for one program built in one session the spec is enough.
+
+### 4. Build the MVP
+
+Start a fresh session for the build:
+
+```bash
+claude "/bmad-build build the spec"
+```
+
+`bmad-build` plans the work and asks you to approve the plan, implements it with tests, reviews it with an agent and presents a commit. It never pushes. Afterwards the program prints `hello world` when you call it from the shell.
+
+### 5. Model check: does the code match the model?
+
+```bash
+claude "/ycore-ddd-model-check codebase"
+```
+
+A checker with a fresh context holds the code against glossary, Context Map and design and writes a report to `_bmad-output/ddd-reviews/`. Each finding names the place in the code and its counterpart in the model; you decide whether the code or the model gives way, and a code fix goes back to `bmad-build`.
 
 ## Working modes
 
