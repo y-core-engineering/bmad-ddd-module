@@ -13,6 +13,7 @@ The first line is `# <BC-ID> <Context> · Design`, the context name exactly as i
 - `## Abuse cases`: `| ID | Abuse case | STRIDE | Prevented by | Protection need |`. STRIDE distinct letters of `S`, `T`, `R`, `I`, `D`, `E`; Prevented by an invariant or Command ID of this file, or the Hotspot ID that keeps it open.
 - `## Hotspots`: `| ID | Question | Status | Decision |`. Status `decided`, `moot` or `deferred`; for `deferred`, Decision names assumption, owner and target step. A Hotspot about the context cut is `deferred` with owner `ycore-ddd-big-picture` and target step "Big-Picture revision".
 - `## Flow`: a Mermaid `flowchart LR` of the Command → Aggregate → Event → Policy chains.
+- `## Open for spec`: technical details the rounds raised but did not decide (storage, formats, protocols, frameworks), one line each with its board reference, for `bmad-spec` and `bmad-architecture`. Leave it out when there are none.
 - `## Implementation order`: the order in which to build the Aggregates, and the remaining deferred Hotspots for the client.
 
 Every row comes from the catalog, the Big-Picture files, the rounds or the user, never from inference alone.
