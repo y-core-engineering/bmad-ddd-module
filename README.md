@@ -19,16 +19,30 @@ The method is unchanged in substance: one question at a time, nothing guessed, e
 ```mermaid
 flowchart LR
     brief["bmad-product-brief<br/>or PRFAQ"] --> bp["ycore-ddd-big-picture<br/>contexts, Context Map, glossary"]
-    bp --> prd["bmad-prd"]
     bp --> dl["ycore-ddd-design-level<br/>Aggregates, invariants, permissions"]
-    prd --> arch["bmad-architecture"]
-    dl --> arch
-    arch --> build["bmad-build"]
+    bp -. "detailed requirements" .-> prd["bmad-prd"]
+    dl -. "parts built separately" .-> arch["bmad-architecture"]
+    prd -.-> arch
+    bp --> spec["bmad-spec"]
+    dl --> spec
+    prd --> spec
+    arch --> spec
+    spec --> build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
     build --> mc["ycore-ddd-model-check<br/>code against the model"]
     mc -- "code gives way" --> build
     mc -- "model gives way" --> dl
     dl -. "context cut in question" .-> bp
 ```
+
+In BMad, `bmad-spec` is the hub: every build reads the spec, and the planning skills exist to give it better material. ycore-ddd adds the domain model to that material. `bmad-prd` and `bmad-architecture` are optional steps between the model and the spec, taken when the work needs them:
+
+| BMad skill | Role | What it takes from ycore-ddd | When to use it |
+| --- | --- | --- | --- |
+| `bmad-prd` | requirements: users, journeys, functional and non-functional requirements | the glossary for its terms, the Context Map and the Event Storming flow for scope and journeys | requirements need real detail: many stakeholders, compliance, integrations, a product launch |
+| `bmad-architecture` | the decisions that keep separately built parts consistent: paradigm, stack, boundaries | the Context Map as the source of the major boundaries, the trust-boundary notes for security, the `design.md` files for what each part must enforce | several people, agents or sessions build parts that must fit together |
+| `bmad-spec` | the spec every build reads | everything: the idea, PRD and architecture when they exist, the glossary, Context Map and `design.md` files, and the points passed on under `Open for spec` | always, before the build |
+
+Two connections matter for the model check later. Ask `bmad-architecture` to record a table with the columns `Context` and `Path` that maps each Bounded Context to its folder or module: the model check reads it to assign the code to contexts (or keep the same table as `code-map.md` in the domain model folder). And use the glossary's terms in the spec, so the code's names can be held against the model.
 
 | Skill | What it produces | Typical request |
 | --- | --- | --- |
@@ -125,7 +139,7 @@ The first run builds a catalog of the contexts with you: which get a full team r
 
 ### 3. Build with BMad
 
-`bmad-prd`, `bmad-architecture` and `bmad-build` take the artifacts as input. Nothing in ycore-ddd changes how they work.
+`bmad-spec` turns the idea and the domain model into the spec that `bmad-build` builds from; for larger work, `bmad-prd` and `bmad-architecture` come first and `bmad-ticket` slices the spec into tickets, as described under [Where it fits in BMad](#where-it-fits-in-bmad). Nothing in ycore-ddd changes how these skills work.
 
 ### 4. Model check: does the code still reflect the model?
 
