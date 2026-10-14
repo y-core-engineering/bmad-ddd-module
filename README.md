@@ -1,6 +1,6 @@
-# ycore-ddd
+# bmad-ddd-module
 
-Domain-Driven Design for the BMad Method (BMad Community Module).
+Domain-Driven Design for the BMad Method (BMad Community Module, module code `ycore-ddd`).
 
 BMad elicits requirements thoroughly but does not model the domain: Bounded Context, Context Map, Ubiquitous Language, Event Storming and invariants appear in none of its skills. ycore-ddd adds that step. Its artifacts feed BMad's PRD, architecture and build skills, and after the build it checks the code against the domain model.
 
@@ -49,7 +49,7 @@ flowchart LR
 2. Install this module:
 
    ```bash
-   npx skills add y-core-engineering/ycore-ddd -a claude-code
+   npx skills add y-core-engineering/bmad-ddd-module -a claude-code
    ```
 
    `-a claude-code` installs for Claude Code. Name your agent instead, or leave the flag out and pick agents interactively; without the agent you work with, its skills folder stays empty.
@@ -168,9 +168,9 @@ The example needs BMad's method skills for the spec and the build, and a Git rep
 
 ```bash
 mkdir hello-world && cd hello-world && git init
-mkdir -p docs && curl -fsSL -o docs/idea.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/idea.md
+mkdir -p docs && curl -fsSL -o docs/idea.md https://raw.githubusercontent.com/y-core-engineering/bmad-ddd-module/main/examples/hello-world/idea.md
 npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmod-method --skill bmad-spec --skill bmad-build -a claude-code
-npx skills add y-core-engineering/ycore-ddd -a claude-code
+npx skills add y-core-engineering/bmad-ddd-module -a claude-code
 claude "bmad setup"
 ```
 
@@ -223,7 +223,7 @@ A checker with a fresh context holds the code against glossary, Context Map and 
 [`examples/hello-world/extension.md`](examples/hello-world/extension.md) lets the program greet by name. The original idea kept parameters out of scope, so the change starts in the model, not in the code:
 
 ```bash
-curl -fsSL -o docs/extension.md https://raw.githubusercontent.com/y-core-engineering/ycore-ddd/main/examples/hello-world/extension.md
+curl -fsSL -o docs/extension.md https://raw.githubusercontent.com/y-core-engineering/bmad-ddd-module/main/examples/hello-world/extension.md
 claude "/ycore-ddd-big-picture update with docs/extension.md"
 claude "/ycore-ddd-design-level update the context the extension touches"
 claude "/bmad-spec update the spec with docs/extension.md and the domain model in docs/ddd"
