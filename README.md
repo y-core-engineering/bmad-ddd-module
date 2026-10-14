@@ -2,7 +2,7 @@
 
 Domain-Driven Design for the BMad Method (BMad Community Module, module code `ycore-ddd`).
 
-BMad elicits requirements thoroughly but does not model the domain: Bounded Context, Context Map, Ubiquitous Language, Event Storming and invariants appear in none of its skills. ycore-ddd adds that step. Its artifacts feed BMad's PRD, architecture and build skills, and after the build it checks the code against the domain model.
+BMad elicits requirements thoroughly but does not model the domain: Bounded Context, Context Map, Ubiquitous Language, Event Storming and invariants appear in none of its skills. ycore-ddd adds that step. Its artifacts feed BMad's spec, and its PRD and architecture where the work needs them, and after the build it checks the code against the domain model.
 
 ## Origin: part of the Y-Core Method, made public
 
@@ -12,7 +12,7 @@ The Y-Core Method is the delivery method of Y-Core Consulting GmbH. It leads a p
 - the Design-Level Event Storming that turns each context into Aggregates, invariants and permissions,
 - the domain model check that holds the code against both after the build.
 
-The method is unchanged in substance: one question at a time, nothing guessed, every open question a Hotspot that the human decides, and every check run by an agent that has not seen the work it checks. It has been rebuilt as BMad skills so that it works inside BMad's own flow. The other parts of the Y-Core Method, among them idea analysis, competitive analysis, architecture concept, delivery planning and the security check, are not part of this module. If you are interested in the full method, contact Sebastian Herden at [sebastian.herden@ycore.engineering](mailto:sebastian.herden@ycore.engineering).
+The method is unchanged in substance: one question at a time, nothing guessed, every open domain question a Hotspot that the human decides, and every check run by an agent that has not seen the work it checks. It has been rebuilt as BMad skills so that it works inside BMad's own flow. The other parts of the Y-Core Method, among them idea analysis, competitive analysis, architecture concept, delivery planning and the security check, are not part of this module. If you are interested in the full method, contact Sebastian Herden at [sebastian.herden@ycore.engineering](mailto:sebastian.herden@ycore.engineering).
 
 ## Where it fits in BMad
 
@@ -48,7 +48,7 @@ Two connections matter for the model check later. Ask `bmad-architecture` to rec
 | --- | --- | --- |
 | `ycore-ddd-big-picture` | `context-map.md`, `ubiquitous-language.md`, `event-storming.md` | "big picture event storming", "find the bounded contexts" |
 | `ycore-ddd-design-level` | `design-level-catalog.md`, one `<bc-id>-<name>/design.md` per context | "design the aggregates for Ordering", "find the invariants of a bounded context" |
-| `ycore-ddd-model-check` | a review report with findings `FM-<n>` | "check epic 3 against the domain model", "domain model check" |
+| `ycore-ddd-model-check` | a review report with findings `FM-<n>` and your decision on each; accepted deviations in `accepted-deviations.md` | "check epic 3 against the domain model", "domain model check" |
 
 ## Installation
 
@@ -112,20 +112,26 @@ Start with a product brief, a PRFAQ or any idea description:
 Run a big picture event storming for docs/product-brief.md
 ```
 
-The skill first interviews you about the idea, one question at a time, and writes `workshop-brief.md` once you approve it: scope from start to end event, the Domain Expert perspectives, external systems, open points. A team of agents then works through six rounds: Events, timeline, Hotspots, Commands and Policies, Bounded Contexts with Context Map, glossary. Before anything is final, every Hotspot comes to you, and you decide, declare it moot, or defer it with an assumption, an owner and a target step. Reviewer agents with a fresh context then check boundaries, sources and usability before the handover.
+The skill first asks what is at stake (a hobby, an internal tool or a product launch) and scales its depth to the answer. It reads what the project and the environment already tell, then interviews you about the rest, one question at a time, and writes `workshop-brief.md` once you approve it: scope from start to end event, the Domain Expert perspectives, external systems, open points. A team of agents then works through six rounds: Events, timeline, Hotspots, Commands and Policies, Bounded Contexts with Context Map, glossary.
+
+After each round the facilitator sorts the new Hotspots. Domain questions (scope, a context boundary, a term, a protection need) come to you; technical details such as formats or exit codes go on to the spec under `Open for spec`; what the sources already answer, it answers itself. You decide a domain Hotspot, declare it moot, or defer it with an assumption, an owner and a target step. Each question explains itself: what it is about, who raised it and what follows from each answer, with stickies named by their label and the ID only in brackets. Reviewer agents with a fresh context check boundaries, sources and usability before the handover.
 
 ```mermaid
 stateDiagram-v2
     [*] --> Preparation: idea
     Preparation --> Rounds: workshop-brief.md approved
-    Rounds --> Rounds: round N merged
-    Rounds --> Checkpoint: converged
-    Checkpoint --> Review: every Hotspot decided, moot or deferred
-    Review --> Checkpoint: reviewer finds an open domain question
-    Review --> Done: no open finding
+    Rounds --> Rounds: round N merged (Coaching: its Hotspots asked)
+    Rounds --> Checkpoint: Coaching, converged
+    Checkpoint --> Review: Coaching, every domain Hotspot settled
+    Review --> Checkpoint: open domain question found
+    Review --> Done: Coaching, no open finding
+    Rounds --> Review: Fast, draft artifacts written
+    Checkpoint --> Done: Fast, final acceptance given
     Done --> Rounds: revision of a named part
     Done --> [*]
 ```
+
+In the Coaching path the reviewers check the finished artifacts; in the Fast path they check the draft, and their domain questions join the single final acceptance.
 
 The state lives in the files, so a run can stop after any round and continue in a new session.
 
@@ -135,7 +141,7 @@ The state lives in the files, so a run can stop after any round and continue in 
 Run the design level event storming
 ```
 
-The first run builds a catalog of the contexts with you: which get a full team run and which a short lean note, in which order, with which constraints. Each full run then works one context through seven rounds: Commands with who may issue them, Aggregates, invariants (security-relevant ones marked `❗🔒`), Policies and Read Models, External Systems behind ACLs, abuse cases along STRIDE, synthesis. The result is a `design.md` per context in a fixed format that the architecture and the model check can read.
+The first run builds a catalog of the contexts with you: which get a full team run and which a short lean note, in which order, with which constraints. Each full run then works one context through seven rounds: Commands with who may issue them, Aggregates, invariants (security-relevant ones marked `❗🔒`), Policies and Read Models, External Systems behind ACLs, abuse cases along STRIDE, synthesis. Domain Hotspots (an Aggregate boundary, an invariant, a permission, a defence) come to you; storage, formats and frameworks go on under `Open for spec`. For a hobby the catalog proposes lean notes. The result is a `design.md` per context in a fixed format that `bmad-spec`, `bmad-architecture` and the model check can read.
 
 ### 3. Build with BMad
 
@@ -147,7 +153,7 @@ The first run builds a catalog of the contexts with you: which get a full team r
 Check epic 3 against the domain model
 ```
 
-The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from BMad's build plans, and a `code-map.md` in the domain model folder assigns them to contexts. If you want, it binds itself to `bmad-retrospective`, which then does not accept an epic with an undecided high finding.
+The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from the build plans beside the epic's `tickets.toml` (from the oldest `baseline_revision` to `HEAD`); a `Context`/`Path` table in `code-map.md` or in the architecture document assigns them to contexts, and without one it offers to write `code-map.md` with you. If you want, it binds itself to `bmad-retrospective`, which then does not accept an epic with an undecided high finding.
 
 ```mermaid
 sequenceDiagram
@@ -155,12 +161,14 @@ sequenceDiagram
     participant Skill as ycore-ddd-model-check
     participant Checker as Checker (fresh context)
     You->>Skill: check epic 3
-    Skill->>Checker: paths of model, code and diff only
+    Skill->>Skill: scope.py: changed files and their contexts
+    Skill->>Checker: scope and model paths only
     Checker->>Checker: five checks, refute before report
     Checker-->>Skill: report with findings FM-n
     Skill->>Skill: check_report.py: structure and tally
     Skill-->>You: tally, high findings, boundary findings
-    You->>You: decide per finding: code or model gives way
+    You->>Skill: per high and medium finding: fix code, update model or accept
+    Skill->>Skill: decisions into the report, status final
 ```
 
 ## Working example
@@ -196,7 +204,7 @@ Accept the defaults; the domain model then lands in `docs/ddd`.
 claude "/ycore-ddd-big-picture docs/idea.md"
 ```
 
-For an idea this small, choose DDD-lite and the Fast path when asked: the rounds then run without a halt, and you decide every Hotspot in one final acceptance. Even this idea yields a surprising number of Hotspots once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe. The result is `context-map.md`, `ubiquitous-language.md` and `event-storming.md` in `docs/ddd`.
+Answer "hobby" to the stakes question, and choose DDD-lite and the Fast path when asked: the rounds then run without a halt, and you decide the domain Hotspots in one final acceptance. Even this idea raises many questions once a user's and an operator's view meet, for example whether the line ends with a newline, which exit code a closed pipe produces, and whether colour codes may reach a pipe. Most are technical and go on under `Open for spec`; what reaches you are questions such as what "output" and "end" mean to each side. The result is `context-map.md`, `ubiquitous-language.md` and `event-storming.md` in `docs/ddd`.
 
 ### 2. Design Level: design the contexts
 
@@ -212,7 +220,7 @@ It reads the Big Picture, builds the catalog of contexts with you, and writes a 
 claude "/bmad-spec create a spec from docs/idea.md and the domain model in docs/ddd"
 ```
 
-`bmad-spec` condenses the idea and the domain model into the spec that every build reads. The decisions from your Hotspots, such as the exit code on a closed pipe, become its requirements. A larger product would add `bmad-prd` and `bmad-architecture` before this step; for one program built in one session the spec is enough.
+`bmad-spec` condenses the idea and the domain model into the spec that every build reads. Your Hotspot decisions become its requirements, and the points under `Open for spec`, such as the exit code on a closed pipe, are settled here. A larger product would add `bmad-prd` and `bmad-architecture` before this step; for one program built in one session the spec is enough.
 
 ### 4. Build the MVP
 
@@ -230,7 +238,7 @@ claude "/bmad-build build the spec"
 claude "/ycore-ddd-model-check codebase"
 ```
 
-A checker with a fresh context holds the code against glossary, Context Map and design and writes a report to `_bmad-output/ddd-reviews/`. Each finding names the place in the code and its counterpart in the model; you decide whether the code or the model gives way, and a code fix goes back to `bmad-build`.
+The skill first offers to write `code-map.md`, which assigns the code to the contexts; for one program that is a single row. A checker with a fresh context then holds the code against glossary, Context Map and design and writes a report to `_bmad-output/ddd-reviews/`. Each finding names the place in the code and its counterpart in the model. You decide each high and medium finding: a code fix goes back to `bmad-build`, a model update to the Design Level, an accepted deviation into `docs/ddd/accepted-deviations.md`.
 
 ### 6. Optional: extend the MVP
 
@@ -295,12 +303,18 @@ docs/ddd/                          domain_model_folder
 ├── bc01-ordering/
 │   ├── board.md, rounds/, design.memlog.md
 │   └── design.md                  Design Level: the tactical design
+├── code-map.md                    Model check: which path belongs to which context
+├── accepted-deviations.md         Model check: deviations you accepted, with reason
 └── reviews/                       reviewer gate and validation reports
+
+_bmad-output/ddd-reviews/          review_folder
+├── domain-model-review-<slug>.md  Model check: report with findings and decisions
+└── .scope-<slug>.json             Model check: the files checked and their contexts
 ```
 
 ## Development
 
-Skills live in `skills/`, one folder each, with the module record in `skills/bmod-ycore-ddd/`. BMad v7 with Toolsmith and bmad-eval is installed locally for building and is not part of the repository (`.claude/`, `_bmad/`). To set it up on a new machine:
+Skills live in `skills/`, one folder each, with the module record in `skills/bmod-ycore-ddd/`. BMad (6.13 or later) with Toolsmith and bmad-eval is installed locally for building and is not part of the repository (`.claude/`, `_bmad/`). To set it up on a new machine:
 
 ```bash
 npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmad-toolsmith --skill bmod-toolsmith --skill bmad-eval -a claude-code -y
