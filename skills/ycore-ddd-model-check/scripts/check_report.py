@@ -13,12 +13,17 @@ root, and every check 1-5 has findings or is named under "Checked and sound" or
 "Not checked". Whether a counterpart is the right one stays with the reader.
 
 Usage:
-  check_report.py --report <report.md> --project-root <dir>
+  check_report.py --report <report.md> --project-root <dir> [--require-decisions]
+
+With --require-decisions it also checks the "## Decisions" table that the skill adds after
+the user has decided: every high and medium finding has a row whose Decision is "fix in
+code", "update model" or "accept deviation" and whose Follow-up is not empty, and the
+report's frontmatter says "status: final".
 
 Output, one JSON object on stdout:
   {"ok": bool, "sections_missing": [...], "columns_missing": [...],
    "findings": [{"id", "row", "problems": [...]}, ...]   (only rows with problems),
-   "checks_unaccounted": [int, ...],
+   "checks_unaccounted": [int, ...], "decisions_missing": [ids] (with --require-decisions),
    "tally": {"total", "by_check": {"1": n, ...}, "by_severity": {...}, "boundary": n}}
 Exit 0 when no gaps, 1 when gaps were found, 2 when the report cannot be read.
 """
@@ -35,6 +40,7 @@ REQUIRED_SECTIONS = ["Frame", "Findings", "Checked and sound", "Not assignable",
 COLUMNS = ["ID", "Check", "Severity", "Context", "Code location", "Model counterpart",
            "Boundary", "Finding", "Direction or question"]
 SEVERITIES = ("high", "medium", "low")
+DECISIONS = ("fix in code", "update model", "accept deviation", "left open")
 BOUNDARY_CHECKS = {2, 4}
 LOCATION = re.compile(r"^`?(?P<path>[^`:]+?):(?P<start>\d+)(?:-(?P<end>\d+))?`?$")
 CHECK_LABEL = re.compile(r"^\s*(?:[-*]\s*|#+\s*)?check\s*([1-5])\b", re.IGNORECASE | re.MULTILINE)
@@ -89,8 +95,9 @@ def location_problem(value: str, root: Path) -> str | None:
     return None
 
 
-def check(report: Path, root: Path) -> dict:
-    sections = split_sections(report.read_text(encoding="utf-8"))
+def check(report: Path, root: Path, require_decisions: bool = False) -> dict:
+    text = report.read_text(encoding="utf-8")
+    sections = split_sections(text)
     result: dict = {
         "sections_missing": [s for s in REQUIRED_SECTIONS if s not in sections],
         "columns_missing": [],
@@ -163,8 +170,22 @@ def check(report: Path, root: Path) -> dict:
     result["checks_unaccounted"] = [n for n in range(1, 6)
                                     if n not in checks_found and n not in mentioned]
     result["tally"] = tally
+    if require_decisions:
+        weighty = [r[col["ID"]] for r in rows if "ID" in col and "Severity" in col
+                   and col["Severity"] < len(r) and r[col["Severity"]].lower() in ("high", "medium")]
+        d_header, d_rows = parse_table(sections.get("Decisions", ""))
+        decided = {}
+        for r in d_rows:
+            cell = dict(zip(d_header, r))
+            if cell.get("Decision", "").lower() in DECISIONS and cell.get("Follow-up"):
+                decided[cell.get("Finding", "")] = cell["Decision"].lower()
+        result["decisions_missing"] = [fid for fid in weighty if decided.get(fid) in (None, "left open")]
+        status = re.search(r"^status:\s*(\w+)", text, re.MULTILINE)
+        if not status or status.group(1) != "final":
+            result["decisions_missing"].append("status: final")
     result["ok"] = not (result["sections_missing"] or result["columns_missing"]
-                        or result["findings"] or result["checks_unaccounted"])
+                        or result["findings"] or result["checks_unaccounted"]
+                        or result.get("decisions_missing"))
     return result
 
 
@@ -173,12 +194,14 @@ def main() -> int:
     parser.add_argument("--report", required=True, type=Path, help="report markdown file")
     parser.add_argument("--project-root", required=True, type=Path,
                         help="root that code locations are relative to")
+    parser.add_argument("--require-decisions", action="store_true",
+                        help="also require a decision for every high and medium finding")
     args = parser.parse_args()
     if not args.report.is_file():
         print(json.dumps({"ok": False, "error": f"report not found: {args.report}"}))
         return 2
     try:
-        result = check(args.report, args.project_root.resolve())
+        result = check(args.report, args.project_root.resolve(), args.require_decisions)
     except (OSError, UnicodeDecodeError) as exc:
         print(json.dumps({"ok": False, "error": f"report unreadable: {exc}"}))
         return 2

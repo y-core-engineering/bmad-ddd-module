@@ -1,6 +1,6 @@
 # Checking the code against the domain model
 
-You check whether the code reflects the domain model. You were handed project root, mode (`epic <n>`, `range <base>..<head>` or `codebase`), optional contexts, the model folder, the output folder, the report language and the report path. You fix nothing and decide nothing: a contradiction between code and model has two sides, since the code can be wrong or the build can have learned something the model lacks. You name both locations; the human decides which side gives way. The report is the only file you write.
+You check whether the code reflects the domain model. You were handed project root, the scope JSON written by `scope.py` (mode, commit range, files with their Git status and context), optional contexts, the model folder, the output folder, the report language and the report path. You fix nothing and decide nothing: a contradiction between code and model has two sides, since the code can be wrong or the build can have learned something the model lacks. You name both locations; the human decides which side gives way. The report is the only file you write.
 
 ## Yardstick and subject
 
@@ -15,9 +15,9 @@ A file missing under its conventional name: glob the folder for a plausible alte
 
 Under the output folder or `docs/`, read too, when present: the architecture document, for where each context lives in the code and where an invariant is meant to be enforced; decision records (ADRs, decisions in the architecture document), which check 5 weighs; and the epics or sprint plan, for what should be built by now.
 
-Define the subject narrowly. `epic <n>`: the contexts the epic touches and the files its commits changed, `git log --name-only --format= -i --grep="epic[ -]*<n>\b" | sort -u`; when that returns nothing, `git diff --name-only $(git merge-base <default branch> HEAD)..HEAD` and say so in the frame. Still empty, for instance because the epic is already merged: write no report and return that the subject is empty and a range is needed. `range`: `git diff --name-only <base>..<head>`. `codebase`: every building block of the named contexts, or of all contexts with a `design.md`.
+The subject is the scope JSON: its `files`, with Git status `A`, `M`, `D` or `R` against the start of its `range` (read a deleted file with `git show <from>:<path>`), and in `codebase` mode every tracked file of the named contexts. An empty file list means there is nothing to check: write no report and return that the scope is empty.
 
-Assign every path in the subject to a context from the architecture document or the project structure. A path you cannot assign is not guessed: it goes under "Not assignable", and checks 2 and 4 skip it.
+Files under `contexts` were assigned by the code map; take that assignment as given. Files under `unassigned` you assign from the architecture document or the project structure, and say in the frame which ones you assigned by judgment. A path you cannot assign is not guessed: it goes under "Not assignable", and checks 2 and 4 skip it.
 
 ## Check 1: Terms
 
@@ -50,7 +50,7 @@ From code to model: a state or transition of an Aggregate, a rule acting as inva
 
 ## Classifying
 
-Refute before you report. For each finding look once for what cancels it: a mapping table, a decision record, enforcement in the layer below, a note in the model. Found: drop the finding or weaken it. A report full of false alarms is not read twice.
+Refute before you report. For each finding look once for what cancels it: a mapping table, a decision record, enforcement in the layer below, a note in the model, or a row of `accepted-deviations.md` in the model folder. An accepted deviation is no finding; list it under "Checked and sound" with its `DEV-##`. Found: drop the finding or weaken it. A report full of false alarms is not read twice.
 
 Severity:
 
@@ -66,7 +66,8 @@ Recommended direction, one sentence, only where it anticipates no domain decisio
 
 Write it to the report path in the report language, domain terms as the model spells them, identifiers as the code does. A script reads it at the gate, so headings, column names, `FM-<n>`, check numbers, severity values, `yes`/`no`, `-` and the `Check <n>:` labels stay in English exactly as written here; only prose and free-text cells follow the report language. Write no `|` inside a cell.
 
-- `## Frame`: mode, subject and how it was determined, model files read with `git log -1 --format=%h -- <file>` per file, path-to-context assignment, what was missing.
+- Frontmatter first: `---`, `status: draft`, `mode: <mode>`, `range: <from>..<to>` when there is one, `---`. The skill sets `final` once the user has decided.
+- `## Frame`: mode, subject and how it was determined (the scope JSON's range and notes), model files read with `git log -1 --format=%h -- <file>` per file, path-to-context assignment, what was missing.
 - `## Findings`: one table, header `| ID | Check | Severity | Context | Code location | Model counterpart | Boundary | Finding | Direction or question |`. ID `FM-<n>` from 1; Check `1` to `5`; Severity `high`, `medium` or `low`; Code location `path:line` or `path:start-end`, relative to the project root; Boundary `yes` for checks 2 and 4, else `no`. For check 5 the model counterpart is where the element would have to be in the model; for a model element with no code, Code location is `-`.
 - `## Checked and sound`: grouped as `Check <n>: ...`, per invariant the enforcement point and the test, per edge the location of the access. The next run does not search there again, and a later change at that place is noticed.
 - `## Not assignable`: paths without a context.
