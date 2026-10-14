@@ -81,6 +81,14 @@ Two connections matter for the model check later. Ask `bmad-architecture` to rec
 | `domain_model_folder` | where the domain model lives | `{project-root}/docs/ddd` |
 | `review_folder` | where model check reports go | `{output_folder}/ddd-reviews` |
 
+4. Optional: bind the model check to the retrospective, so that every `bmad-retrospective` reads the check's report for its epic and does not accept an epic with an undecided high finding. It needs `bmad-retrospective` and `bmad-customize`:
+
+   ```bash
+   claude "/ycore-ddd-model-check bind the retrospective"
+   ```
+
+   The skill writes this as a team override through `bmad-customize`, since a module cannot ship overrides for other skills. If you skip it now, the model check offers it once after its first final report.
+
 A ycore-ddd skill started without BMad says so and points here; the skills never install anything themselves. `bmad setup ycore-ddd` shows and changes the answers later.
 
 Optional: the workshops mention two BMad skills you can call at any point, and customization runs through a third. Install them if you want them:
@@ -161,7 +169,7 @@ The first run builds a catalog of the contexts with you: which get a full team r
 Check epic 3 against the domain model
 ```
 
-The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from the build plans beside the epic's `tickets.toml` (from the oldest `baseline_revision` to `HEAD`); a `Context`/`Path` table in `code-map.md` or in the architecture document assigns them to contexts, and without one it offers to write `code-map.md` with you. If you want, it binds itself to `bmad-retrospective`, which then does not accept an epic with an undecided high finding.
+The check runs in a subagent that has seen nothing of the build, because whoever built the code reads it through the plan. It holds the code against glossary, Context Map and designs in five checks: terms, context boundaries, invariants, coupling between contexts, and domain logic in the code that the model lacks. Every finding names a place in the code and its counterpart in the model. The skill fixes nothing. Afterwards it goes through every high and medium finding with you: fix the code, update the model, or accept the deviation with a reason, which it records so later checks leave it alone. For an epic it takes the changed files from the build plans beside the epic's `tickets.toml` (from the oldest `baseline_revision` to `HEAD`); a `Context`/`Path` table in `code-map.md` or in the architecture document assigns them to contexts, and without one it offers to write `code-map.md` with you. Bound to `bmad-retrospective` (step 4 of the installation), it makes every retrospective read the report and refuse an epic with an undecided high finding.
 
 ```mermaid
 sequenceDiagram
