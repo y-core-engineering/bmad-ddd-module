@@ -1,0 +1,8 @@
+# Development tooling, installed per machine
+.claude/
+_bmad/
+skills-lock.json
+_bmad-output/
+
+# Python
+__pycache__/
