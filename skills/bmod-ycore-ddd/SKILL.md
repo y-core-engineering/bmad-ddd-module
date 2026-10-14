@@ -2,4 +2,4 @@
 name: bmod-ycore-ddd
 description: Required bmod metadata. Never invoke this skill.
 ---
-This folder is the ycore-ddd module's record, not something to run. Invoke the `bmad` skill with `setup ycore-ddd`; it sets the module up if it never was, and otherwise reports its state. If there is no `bmad` skill, say so and offer `npx skills add bmad-code-org/BMAD-METHOD --skill bmad`.
+This folder is the ycore-ddd module's record, not something to run. Invoke the `bmad` skill with `setup ycore-ddd`; it sets the module up if it never was, and otherwise reports its state. If there is no `bmad` skill, say so and point to the Installation section of the module's README.

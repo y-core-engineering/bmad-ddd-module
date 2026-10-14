@@ -60,14 +60,20 @@ flowchart LR
    claude "bmad setup"
    ```
 
-   It creates `_bmad/`, asks the questions of every installed module, and offers to install the skills the modules require or recommend, for example `bmad-customize` and `bmad-party-mode`. For ycore-ddd it asks:
+   It creates `_bmad/`, asks the questions of every installed module, and checks that the skills a module requires are present. For ycore-ddd it asks:
 
 | Setting | Meaning | Default |
 | --- | --- | --- |
 | `domain_model_folder` | where the domain model lives | `{project-root}/docs/ddd` |
 | `review_folder` | where model check reports go | `{output_folder}/ddd-reviews` |
 
-A ycore-ddd skill started without BMad says so and offers the command from step 1. `bmad setup ycore-ddd` shows and changes the answers later.
+A ycore-ddd skill started without BMad says so and points here; the skills never install anything themselves. `bmad setup ycore-ddd` shows and changes the answers later.
+
+Optional: the workshops mention two BMad skills you can call at any point, and customization runs through a third. Install them if you want them:
+
+```bash
+npx skills add bmad-code-org/BMAD-METHOD --skill bmad-party-mode --skill bmad-advanced-elicitation --skill bmad-customize -a claude-code
+```
 
 ## Usage
 
