@@ -1,6 +1,6 @@
 ---
 name: ycore-ddd-model-check
-description: 'Checks code against the DDD domain model. Use when the user says "check the code against the domain model", "domain model check", "check epic 3 against glossary and context map", "does the codebase still respect the bounded contexts" or "bind the model check to the retrospective".'
+description: 'Checks code against the DDD domain model. Use when the user says "check the code against the domain model", "domain model check", "check epic 3 against glossary and context map", "does the codebase still respect the bounded contexts" or "bind the model check to the retrospective". Not for general code review, security review, retrospectives, acceptance-criteria checks or editing the model.'
 ---
 # Domain model check
 

@@ -1,0 +1,22 @@
+[
+  {"query": "Check epic 3 against the domain model", "should_trigger": true},
+  {"query": "Prüf den Code gegen das Domänenmodell", "should_trigger": true},
+  {"query": "Does the codebase still respect the bounded contexts from our context map?", "should_trigger": true},
+  {"query": "Domain model check for the last build", "should_trigger": true},
+  {"query": "Stimmen die Begriffe im Code noch mit der Ubiquitous Language überein?", "should_trigger": true},
+  {"query": "Check whether the invariants in design.md are actually enforced in the code of epic 2", "should_trigger": true},
+  {"query": "Bind the model check to the retrospective", "should_trigger": true},
+  {"query": "Hat der Build die Kontextgrenzen verletzt? Vergleich den Code mit context-map.md und den Designs.", "should_trigger": true},
+  {"query": "Is there domain logic in the code that the domain model doesn't know about?", "should_trigger": true},
+  {"query": "Go through the findings of the model check report with me and decide them", "should_trigger": true},
+  {"query": "Review this code", "should_trigger": false},
+  {"query": "Run a code review of the current branch", "should_trigger": false},
+  {"query": "Run a retrospective for epic 3", "should_trigger": false},
+  {"query": "Run a big picture event storming for docs/idea.md", "should_trigger": false},
+  {"query": "Design the aggregates for the Billing context", "should_trigger": false},
+  {"query": "Prüf, ob die Tests grün sind und der Linter nichts meldet", "should_trigger": false},
+  {"query": "Check the code for security vulnerabilities", "should_trigger": false},
+  {"query": "Update the glossary: rename Customer to Account in ubiquitous-language.md", "should_trigger": false},
+  {"query": "Check that the implementation matches the acceptance criteria of story 3.2", "should_trigger": false},
+  {"query": "Erklär mir, was eine Anti-Corruption-Layer ist", "should_trigger": false}
+]

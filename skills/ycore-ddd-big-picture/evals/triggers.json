@@ -1,0 +1,22 @@
+[
+  {"query": "Run a big picture event storming for docs/idea.md", "should_trigger": true},
+  {"query": "Mach ein Big-Picture-Event-Storming zu meiner Produktidee in docs/product-brief.md", "should_trigger": true},
+  {"query": "I have a product brief for a booking platform. Help me find the bounded contexts.", "should_trigger": true},
+  {"query": "Welche Bounded Contexts hat meine App? Die Idee steht in docs/idea.md.", "should_trigger": true},
+  {"query": "Build the context map and the ubiquitous language for this product", "should_trigger": true},
+  {"query": "Erstell mir eine Context Map und ein Glossar der Fachsprache für unser Lagerverwaltungs-Projekt", "should_trigger": true},
+  {"query": "We want to do strategic DDD for our new invoicing product before we write a PRD", "should_trigger": true},
+  {"query": "Lass uns mit Domain Events und Hotspots den Ablauf meiner Idee von Anfang bis Ende modellieren", "should_trigger": true},
+  {"query": "Split this idea into subdomains and bounded contexts with a team of agents, here is the PRFAQ: docs/prfaq.md", "should_trigger": true},
+  {"query": "Continue the big picture workshop, the board is at round 3", "should_trigger": true},
+  {"query": "Run a design level event storming for the Ordering context", "should_trigger": false},
+  {"query": "Finde die Invarianten und Aggregates im Bounded Context Billing", "should_trigger": false},
+  {"query": "Check epic 3 against the context map and the glossary", "should_trigger": false},
+  {"query": "Help me brainstorm ideas for a new app", "should_trigger": false},
+  {"query": "Schreib ein PRD für meine Idee in docs/idea.md", "should_trigger": false},
+  {"query": "Create the technical architecture for this product", "should_trigger": false},
+  {"query": "Erklär mir den Unterschied zwischen Bounded Context und Microservice", "should_trigger": false},
+  {"query": "Draw a sequence diagram of the event flow between our Kafka topics", "should_trigger": false},
+  {"query": "Write a product brief for my idea", "should_trigger": false},
+  {"query": "Refactor the OrderService so the events are published after the transaction commits", "should_trigger": false}
+]

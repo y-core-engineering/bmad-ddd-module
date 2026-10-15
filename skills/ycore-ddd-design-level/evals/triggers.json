@@ -1,0 +1,22 @@
+[
+  {"query": "Run the design level event storming", "should_trigger": true},
+  {"query": "Mach ein Design-Level-Event-Storming für den Bounded Context Ordering", "should_trigger": true},
+  {"query": "Design the aggregates for the Billing context", "should_trigger": true},
+  {"query": "Welche Invarianten hat der Kontext Inventory, und wer darf welche Commands auslösen?", "should_trigger": true},
+  {"query": "Tactical DDD for the bounded context Payments: aggregates, commands, policies and read models", "should_trigger": true},
+  {"query": "The big picture is done, now design each bounded context in detail", "should_trigger": true},
+  {"query": "Erstell den Design-Level-Katalog: welche Kontexte bekommen einen vollen Lauf und in welcher Reihenfolge?", "should_trigger": true},
+  {"query": "Find the invariants of the Shipping bounded context and the abuse cases along STRIDE", "should_trigger": true},
+  {"query": "Write the design.md for bc02-customer from an event storming with agents", "should_trigger": true},
+  {"query": "Arbeite den Kontext Abrechnung taktisch aus: Aggregate, Invarianten, ACLs zu externen Systemen", "should_trigger": true},
+  {"query": "Run a big picture event storming for docs/idea.md", "should_trigger": false},
+  {"query": "Find the bounded contexts of my product idea", "should_trigger": false},
+  {"query": "Prüf, ob der Code noch zum Domänenmodell passt", "should_trigger": false},
+  {"query": "Implement the Order aggregate in TypeScript with the invariants from design.md", "should_trigger": false},
+  {"query": "Create the technical architecture for the billing service", "should_trigger": false},
+  {"query": "Erklär mir, was ein Aggregate Root in DDD ist", "should_trigger": false},
+  {"query": "Write unit tests for the invariants in the Order class", "should_trigger": false},
+  {"query": "Do a STRIDE threat model of our login API", "should_trigger": false},
+  {"query": "Design the database schema for orders and invoices", "should_trigger": false},
+  {"query": "Plan the UX for the checkout flow", "should_trigger": false}
+]

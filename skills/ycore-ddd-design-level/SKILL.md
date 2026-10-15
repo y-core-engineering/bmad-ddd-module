@@ -1,6 +1,6 @@
 ---
 name: ycore-ddd-design-level
-description: 'Runs Design-Level Event Storming per Bounded Context. Use when the user says "design level event storming", "design the aggregates for <context>", "find the invariants of a bounded context" or "tactical DDD for a bounded context".'
+description: 'Runs Design-Level Event Storming per Bounded Context. Use when the user says "design level event storming", "design the aggregates for <context>", "find the invariants of a bounded context" or "tactical DDD for a bounded context". Not for finding the contexts of a product, checking code against the model, or implementing, testing or storing aggregates in code.'
 ---
 # Design-Level Event Storming
 

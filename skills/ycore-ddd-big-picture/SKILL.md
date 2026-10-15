@@ -1,6 +1,6 @@
 ---
 name: ycore-ddd-big-picture
-description: 'Runs a Big-Picture Event Storming for strategic DDD. Use when the user says "big picture event storming", "find the bounded contexts", "strategic DDD for this product" or "build the context map and ubiquitous language".'
+description: 'Runs a Big-Picture Event Storming for strategic DDD, from an idea or brief to Bounded Contexts, Context Map and ubiquitous language. Use when the user says "big picture event storming", "find the bounded contexts", "strategic DDD for this product" or "build the context map and ubiquitous language". Not for one context''s aggregates or invariants, checking code against the model, PRDs or technical architecture.'
 ---
 # Big-Picture Event Storming
 
