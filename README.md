@@ -11,6 +11,54 @@ Domain-Driven Design for the BMad Method (BMad Community Module, module code `yc
 
 BMad elicits requirements thoroughly but does not model the domain: Bounded Context, Context Map, Ubiquitous Language, Event Storming and invariants appear in none of its skills. ycore-ddd adds that step. Its artifacts feed BMad's spec, and its PRD and architecture where the work needs them, and after the build it checks the code against the domain model.
 
+## What a run looks like
+
+A shortened Big Picture run in the Fast path, starting from an idea file:
+
+```text
+You:    Run a big picture event storming for docs/idea.md
+
+Claude: What is at stake: a hobby project, an internal tool or a product launch?
+You:    A product launch.
+
+Claude: What I understood, in five bullets ... 4 open points, 2 of them block round 1.
+        Coaching path (a pause after every round) or Fast path (one final acceptance)?
+You:    Fast path.
+
+        [the brief is approved, a team of agents runs six rounds, reviewers check the draft]
+
+Claude: Final acceptance: 3 Hotspots, grouped by scope, context boundaries and language.
+        Hotspot 1 of 3, raised by the billing expert in round 5: does a cancelled
+        booking still produce an invoice? (a) yes, a cancellation fee (b) no ...
+You:    (a)
+
+Claude: Accept the draft? context-map.md, ubiquitous-language.md, event-storming.md
+You:    Yes.
+```
+
+Every domain question comes to you; the agents decide nothing that changes scope, a context boundary or a term. The same pattern runs per context in the Design Level, and the model check ends with your decision on every high and medium finding.
+
+## Quick start
+
+```bash
+npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools -a claude-code
+npx skills add y-core-engineering/bmad-ddd-module -a claude-code
+claude "bmad setup"
+```
+
+Then ask in your own words or call a skill by name. These phrasings started their skill in every run of the [trigger evals](skills/ycore-ddd-big-picture/evals/triggers.json):
+
+| You say | Skill | What happens |
+| --- | --- | --- |
+| "Run a big picture event storming for docs/idea.md" | `ycore-ddd-big-picture` | interview, brief, six rounds with an agent team, Context Map and glossary |
+| "Build the context map and the ubiquitous language for this product" | `ycore-ddd-big-picture` | the same, from a brief or PRFAQ |
+| "Design the aggregates for the Billing context" | `ycore-ddd-design-level` | a catalog of the contexts, then seven rounds per context into `design.md` |
+| "Welche Invarianten hat der Kontext Inventory, und wer darf welche Commands auslösen?" | `ycore-ddd-design-level` | the same, asked in German |
+| "Check epic 3 against the domain model" | `ycore-ddd-model-check` | a fresh-context check of the code, then your decision on every high and medium finding |
+| "Bind the model check to the retrospective" | `ycore-ddd-model-check` | `bmad-retrospective` refuses an epic while a high finding is undecided |
+
+The details follow under [Installation](#installation) and [Usage](#usage).
+
 ## Origin: part of the Y-Core Method, made public
 
 The Y-Core Method is the delivery method of Y-Core Consulting GmbH. It leads a product from the first idea through domain modelling, architecture and delivery planning to the built and checked epic, with specialised agents for each step. Y-Core Consulting GmbH publishes its domain modelling part as this open module under the MIT licence:
