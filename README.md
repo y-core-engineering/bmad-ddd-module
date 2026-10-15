@@ -49,7 +49,7 @@ npx skills add bmad-code-org/BMAD-METHOD -a claude-code --skill \
   bmad-correct-course bmad-prd bmad-prfaq bmad-product-brief bmad-project-context \
   bmad-qa-generate-e2e-tests bmad-retrospective bmad-spec bmad-ticket bmad-ux bmad-walkthrough
 npx skills add y-core-engineering/bmad-ddd-module -a claude-code
-claude "bmad setup"
+claude "Set up git for this project and run bmad setup"
 ```
 
 Then ask in your own words or call a skill by name. These phrasings started their skill in every run of the [trigger evals](skills/ycore-ddd-big-picture/evals/triggers.json):
@@ -130,10 +130,10 @@ The module is tested with Claude Code. `npx skills add` also installs it for oth
 
    `-a claude-code` installs for Claude Code. Name your agent instead, or leave the flag out and pick agents interactively; without the agent you work with, its skills folder stays empty.
 
-3. Start your agent in the project and call the `bmad` skill with `setup`. With Claude Code:
+3. Start your agent in the project, have it set up Git if the project has no repository yet, and call the `bmad` skill with `setup`. Git is needed because the model check takes its scope from commits and `bmad-build` ends with a commit. With Claude Code:
 
    ```bash
-   claude "bmad setup"
+   claude "Set up git for this project and run bmad setup"
    ```
 
    It creates `_bmad/`, asks the questions of every installed module, and checks that the skills a module requires are present. For ycore-ddd it asks:
