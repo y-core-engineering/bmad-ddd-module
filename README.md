@@ -49,8 +49,10 @@ npx skills add bmad-code-org/BMAD-METHOD -a claude-code --skill \
   bmad-correct-course bmad-prd bmad-prfaq bmad-product-brief bmad-project-context \
   bmad-qa-generate-e2e-tests bmad-retrospective bmad-spec bmad-ticket bmad-ux bmad-walkthrough
 npx skills add y-core-engineering/bmad-ddd-module -a claude-code
-claude "Set up git for this project and run bmad setup"
+claude "Set up git for this project, run bmad setup, then bind the retrospective with ycore-ddd-model-check and the ux to the domain model with ycore-ddd-big-picture"
 ```
+
+The last line sets up git and BMad and binds BMad's retrospective and UX skills to the domain model, each as a team override in `_bmad/custom/`. Installation steps 3 to 5 describe the three parts one by one.
 
 Then ask in your own words or call a skill by name. These phrasings started their skill in every run of the [trigger evals](skills/ycore-ddd-big-picture/evals/triggers.json):
 
@@ -59,9 +61,10 @@ Then ask in your own words or call a skill by name. These phrasings started thei
 | "Run a big picture event storming for docs/idea.md" | `ycore-ddd-big-picture` | interview, brief, six rounds with an agent team, Context Map and glossary |
 | "Build the context map and the ubiquitous language for this product" | `ycore-ddd-big-picture` | the same, from a brief or PRFAQ |
 | "Design the aggregates for the Billing context" | `ycore-ddd-design-level` | a catalog of the contexts, then seven rounds per context into `design.md` |
-| "Welche Invarianten hat der Kontext Inventory, und wer darf welche Commands auslösen?" | `ycore-ddd-design-level` | the same, asked in German |
+| "Find the invariants of the Shipping bounded context and the abuse cases along STRIDE" | `ycore-ddd-design-level` | the same, for one named context |
 | "Check epic 3 against the domain model" | `ycore-ddd-model-check` | a fresh-context check of the code, then your decision on every high and medium finding |
 | "Bind the model check to the retrospective" | `ycore-ddd-model-check` | `bmad-retrospective` refuses an epic while a high finding is undecided |
+| "Bind the UX to the domain model so bmad-ux uses our glossary and bounded contexts" | `ycore-ddd-big-picture` | `bmad-ux` loads the domain model and uses the glossary's terms strictly |
 
 The details follow under [Installation](#installation) and [Usage](#usage).
 
@@ -79,13 +82,14 @@ The method is unchanged in substance: one question at a time, nothing guessed, e
 
 ![ycore-ddd in the BMad flow](docs/diagrams/bmad-flow.svg)
 
-In BMad, `bmad-spec` is the hub: every build reads the spec, and the planning skills exist to give it better material. ycore-ddd adds the domain model to that material. `bmad-prd` and `bmad-architecture` are optional steps between the model and the spec, taken when the work needs them:
+In BMad, `bmad-spec` is the hub: every build reads the spec, and the planning skills exist to give it better material. ycore-ddd adds the domain model to that material. `bmad-prd`, `bmad-ux` and `bmad-architecture` are optional steps between the model and the spec, taken when the work needs them:
 
 | BMad skill | Role | What it takes from ycore-ddd | When to use it |
 | --- | --- | --- | --- |
 | `bmad-prd` | requirements: users, journeys, functional and non-functional requirements | the glossary for its terms, the Context Map and the Event Storming flow for scope and journeys | requirements need real detail: many stakeholders, compliance, integrations, a product launch |
+| `bmad-ux` | how the product looks (`DESIGN.md`) and behaves (`EXPERIENCE.md`): information architecture, states, key flows, mocks | the glossary for labels and microcopy, the Event Storming flow for the key flows; it does not find the domain model on its own: bind it once (installation step 5), or name `ubiquitous-language.md` and `context-map.md` as sources when it asks | the product has a user interface worth designing |
 | `bmad-architecture` | the decisions that keep separately built parts consistent: paradigm, stack, boundaries | the Context Map as the source of the major boundaries, the trust-boundary notes for security, the `design.md` files for what each part must enforce | several people, agents or sessions build parts that must fit together |
-| `bmad-spec` | the spec every build reads | everything: the idea, PRD and architecture when they exist, the glossary, Context Map and `design.md` files, and the points passed on under `Open for spec` | always, before the build |
+| `bmad-spec` | the spec every build reads | everything: the idea, PRD, `DESIGN.md`, `EXPERIENCE.md` and architecture when they exist, the glossary, Context Map and `design.md` files, and the points passed on under `Open for spec` | always, before the build |
 
 Two connections matter for the model check later. Ask `bmad-architecture` to record a table with the columns `Context` and `Path` that maps each Bounded Context to its folder or module: the model check reads it to assign the code to contexts (or keep the same table as `code-map.md` in the domain model folder). And use the glossary's terms in the spec, so the code's names can be held against the model.
 
@@ -151,6 +155,14 @@ The module is tested with Claude Code. `npx skills add` also installs it for oth
 
    The skill writes this as a team override through `bmad-customize`, since a module cannot ship overrides for other skills. If you skip it now, the model check offers it once after its first final report.
 
+5. Optional: bind `bmad-ux` to the domain model, so that every UX run loads the glossary, the Context Map, the event flow and the designs, uses the glossary's terms strictly in screens, labels and microcopy, and lays out screens and flows along the Bounded Contexts. Run it at setup or later; the domain model files need not exist yet, `bmad-ux` reads whatever is there when it runs:
+
+   ```bash
+   claude "/ycore-ddd-big-picture bind the ux to the domain model"
+   ```
+
+   This is also a team override through `bmad-customize`, written to `_bmad/custom/bmad-ux.toml` with the paths of your domain model folder; after moving that folder, bind again. If you skip it now, the Big Picture offers it once when it is done.
+
 A ycore-ddd skill started without BMad says so and points here; the skills never install anything themselves. `bmad setup ycore-ddd` shows and changes the answers later.
 
 ### BMad version
@@ -204,7 +216,7 @@ The first run builds a catalog of the contexts with you: which get a full team r
 
 ### 3. Build with BMad
 
-`bmad-spec` turns the idea and the domain model into the spec that `bmad-build` builds from; for larger work, `bmad-prd` and `bmad-architecture` come first and `bmad-ticket` slices the spec into tickets, as described under [Where it fits in BMad](#where-it-fits-in-bmad). Nothing in ycore-ddd changes how these skills work.
+`bmad-spec` turns the idea and the domain model into the spec that `bmad-build` builds from; for larger work, `bmad-prd`, `bmad-ux` and `bmad-architecture` come first and `bmad-ticket` slices the spec into tickets, as described under [Where it fits in BMad](#where-it-fits-in-bmad). Nothing in ycore-ddd changes how these skills work.
 
 ### 4. Model check: does the code still reflect the model?
 

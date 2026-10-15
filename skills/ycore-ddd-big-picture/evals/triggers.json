@@ -9,6 +9,7 @@
   {"query": "Lass uns mit Domain Events und Hotspots den Ablauf meiner Idee von Anfang bis Ende modellieren", "should_trigger": true},
   {"query": "Split this idea into subdomains and bounded contexts with a team of agents, here is the PRFAQ: docs/prfaq.md", "should_trigger": true},
   {"query": "Continue the big picture workshop, the board is at round 3", "should_trigger": true},
+  {"query": "Bind the UX to the domain model so bmad-ux uses our glossary and bounded contexts", "should_trigger": true},
   {"query": "Run a design level event storming for the Ordering context", "should_trigger": false},
   {"query": "Finde die Invarianten und Aggregates im Bounded Context Billing", "should_trigger": false},
   {"query": "Check epic 3 against the context map and the glossary", "should_trigger": false},
