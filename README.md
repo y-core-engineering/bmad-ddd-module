@@ -41,7 +41,13 @@ Every domain question comes to you; the agents decide nothing that changes scope
 ## Quick start
 
 ```bash
-npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools -a claude-code
+npx skills add bmad-code-org/BMAD-METHOD -a claude-code --skill \
+  bmad bmod-core-tools bmad-advanced-elicitation bmad-brainstorming bmad-customize \
+  bmad-deep-recon bmad-forge-idea bmad-party-mode bmad-review \
+  bmod-method bmad-agent-analyst bmad-agent-architect bmad-agent-dev bmad-agent-pm \
+  bmad-agent-ux-designer bmad-architecture bmad-build bmad-build-auto bmad-code-review \
+  bmad-correct-course bmad-prd bmad-prfaq bmad-product-brief bmad-project-context \
+  bmad-qa-generate-e2e-tests bmad-retrospective bmad-spec bmad-ticket bmad-ux bmad-walkthrough
 npx skills add y-core-engineering/bmad-ddd-module -a claude-code
 claude "bmad setup"
 ```
@@ -102,11 +108,19 @@ The module is tested with Claude Code. `npx skills add` also installs it for oth
 
 `npx skills add` copies skill folders and nothing else: it does not read the dependencies a module declares. Those are resolved by BMad's own `bmad setup`, so BMad comes first.
 
-1. Install BMad (version 6.13 or later) into the project:
+1. Install BMad (version 6.13 or later) into the project: the `bmad` skill, its `core-tools` module and the `method` module with the planning, spec, build and retrospective skills that take up the domain model:
 
    ```bash
-   npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools -a claude-code
+   npx skills add bmad-code-org/BMAD-METHOD -a claude-code --skill \
+     bmad bmod-core-tools bmad-advanced-elicitation bmad-brainstorming bmad-customize \
+     bmad-deep-recon bmad-forge-idea bmad-party-mode bmad-review \
+     bmod-method bmad-agent-analyst bmad-agent-architect bmad-agent-dev bmad-agent-pm \
+     bmad-agent-ux-designer bmad-architecture bmad-build bmad-build-auto bmad-code-review \
+     bmad-correct-course bmad-prd bmad-prfaq bmad-product-brief bmad-project-context \
+     bmad-qa-generate-e2e-tests bmad-retrospective bmad-spec bmad-ticket bmad-ux bmad-walkthrough
    ```
+
+   `--skill '*'` would also install BMad's own tools for building skills (`bmad-toolsmith`, `bmad-eval`), which a project does not need.
 
 2. Install this module:
 
@@ -129,7 +143,7 @@ The module is tested with Claude Code. `npx skills add` also installs it for oth
 | `domain_model_folder` | where the domain model lives | `{project-root}/docs/ddd` |
 | `review_folder` | where model check reports go | `{output_folder}/ddd-reviews` |
 
-4. Optional: bind the model check to the retrospective, so that every `bmad-retrospective` reads the check's report for its epic and does not accept an epic with an undecided high finding. It needs `bmad-retrospective` and `bmad-customize`:
+4. Optional: bind the model check to the retrospective, so that every `bmad-retrospective` reads the check's report for its epic and does not accept an epic with an undecided high finding. It uses `bmad-retrospective` and `bmad-customize`, both installed in step 1:
 
    ```bash
    claude "/ycore-ddd-model-check bind the retrospective"
@@ -138,12 +152,6 @@ The module is tested with Claude Code. `npx skills add` also installs it for oth
    The skill writes this as a team override through `bmad-customize`, since a module cannot ship overrides for other skills. If you skip it now, the model check offers it once after its first final report.
 
 A ycore-ddd skill started without BMad says so and points here; the skills never install anything themselves. `bmad setup ycore-ddd` shows and changes the answers later.
-
-Optional: the workshops mention two BMad skills you can call at any point, and customization runs through a third. Install them if you want them:
-
-```bash
-npx skills add bmad-code-org/BMAD-METHOD --skill bmad-party-mode --skill bmad-advanced-elicitation --skill bmad-customize -a claude-code
-```
 
 ### BMad version
 
@@ -222,12 +230,18 @@ After the build, the model check held the code against the domain model, and the
 
 ### 0. Set up a project
 
-The example needs BMad's method skills for the spec and the build, and a Git repository, since `bmad-build` ends with a commit.
+The example needs BMad with its method skills, as in the installation, and a Git repository, since `bmad-build` ends with a commit.
 
 ```bash
 mkdir hello-world && cd hello-world && git init
 mkdir -p docs && curl -fsSL -o docs/idea.md https://raw.githubusercontent.com/y-core-engineering/bmad-ddd-module/main/examples/hello-world/idea.md
-npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmod-method --skill bmad-spec --skill bmad-build -a claude-code
+npx skills add bmad-code-org/BMAD-METHOD -a claude-code --skill \
+  bmad bmod-core-tools bmad-advanced-elicitation bmad-brainstorming bmad-customize \
+  bmad-deep-recon bmad-forge-idea bmad-party-mode bmad-review \
+  bmod-method bmad-agent-analyst bmad-agent-architect bmad-agent-dev bmad-agent-pm \
+  bmad-agent-ux-designer bmad-architecture bmad-build bmad-build-auto bmad-code-review \
+  bmad-correct-course bmad-prd bmad-prfaq bmad-product-brief bmad-project-context \
+  bmad-qa-generate-e2e-tests bmad-retrospective bmad-spec bmad-ticket bmad-ux bmad-walkthrough
 npx skills add y-core-engineering/bmad-ddd-module -a claude-code
 claude "bmad setup"
 ```
