@@ -1,6 +1,6 @@
 ---
 name: ycore-ddd-big-picture
-description: 'Runs a Big-Picture Event Storming for strategic DDD, from an idea or brief to Bounded Contexts, Context Map and ubiquitous language. Use when the user says "big picture event storming", "find the bounded contexts", "strategic DDD for this product" or "build the context map and ubiquitous language". Not for one context''s aggregates or invariants, checking code against the model, PRDs or technical architecture.'
+description: 'Runs a Big-Picture Event Storming for strategic DDD, from an idea or brief to Bounded Contexts, Context Map and ubiquitous language. Use when the user says "big picture event storming", "find the bounded contexts", "strategic DDD for this product", "build the context map and ubiquitous language" or "bind the ux to the domain model". Not for one context''s aggregates or invariants, checking code against the model, PRDs or technical architecture.'
 ---
 # Big-Picture Event Storming
 
@@ -21,6 +21,7 @@ Every answer, decision, Hotspot outcome, override and assumption is one line in 
 
 Route on the intent first, then on the files in `{domain_model_folder}`, so a run continues in a new session. When a reference ends by setting a new status, route again from this list.
 
+- Bind the UX (make `bmad-ux` work from the domain model): follow the section on binding the UX and stop there; no storming runs.
 - Validate (critique the existing artifacts without changing them): read `references/reviewer-gate.md` fully and follow its report mode.
 - Update (change a finished storming, `board.md` at `Status: done | …`): set `Status: revision <N> | <part>`, N being the next round number, and follow `references/facilitate.md`.
 - Create, the default:
@@ -33,4 +34,8 @@ The working mode stands in the brief. In the Coaching path, when this session ha
 
 ## Afterwards
 
-Once the status is `done`, offer `ycore-ddd-design-level` for the Core contexts named in `event-storming.md`. On the way to the build, `bmad-spec` takes the idea with `event-storming.md`, `context-map.md`, `ubiquitous-language.md` and the points under `Open for spec`; offer `bmad-prd` first, with the same files as input, when the requirements need real detail (many stakeholders, compliance, integrations, a launch). Then run `{workflow.on_complete}` when it is not empty. To change the reviewer lenses or the closing step, invoke the `bmad-customize` skill and name `workflow.finalize_reviewers` or `workflow.on_complete`; if it is not installed, say so.
+Once the status is `done`, offer `ycore-ddd-design-level` for the Core contexts named in `event-storming.md`. On the way to the build, `bmad-spec` takes the idea with `event-storming.md`, `context-map.md`, `ubiquitous-language.md` and the points under `Open for spec`; offer `bmad-prd` first, with the same files as input, when the requirements need real detail (many stakeholders, compliance, integrations, a launch). When `bmad-ux` is installed and not yet bound, offer once to bind it. Then run `{workflow.on_complete}` when it is not empty. To change the reviewer lenses or the closing step, invoke the `bmad-customize` skill and name `workflow.finalize_reviewers` or `workflow.on_complete`; if it is not installed, say so.
+
+## Binding the UX
+
+A module cannot ship an override for another skill, so the binding is made per project, at setup or later; the files need not exist yet, since `bmad-ux` reads what is there when it runs. It is in place when `{project-root}/_bmad/custom/bmad-ux.toml` contains a line that starts with "ycore-ddd domain model"; then say so and change nothing. Otherwise check that `bmad-ux` and `bmad-customize` are installed, and name what is missing with a pointer to the Installation section of the module's README. Read `{skill-root}/assets/ux-facts.md`, replace every `<folder>` with `{domain_model_folder}` written relative to `{project-root}`, and invoke the `bmad-customize` skill to append its lines, one entry each, to `workflow.persistent_facts` of `bmad-ux` as a team override. Tell the user what it does: every `bmad-ux` run loads the glossary, the Context Map, the event flow and the designs, uses the glossary's terms strictly, and lays out screens and flows along the Bounded Contexts. The paths are fixed at binding time, so after moving the domain model folder bind again. You never write under `_bmad/custom/` yourself; removing the binding also goes through `bmad-customize`.

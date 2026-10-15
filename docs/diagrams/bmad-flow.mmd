@@ -4,10 +4,13 @@ flowchart LR
     bp -. "detailed requirements" .-> prd["bmad-prd"]
     dl -. "parts built separately" .-> arch["bmad-architecture"]
     prd -.-> arch
+    bp -. "user interface" .-> ux["bmad-ux<br/>DESIGN.md, EXPERIENCE.md"]
+    prd -.-> ux
     bp --> spec["bmad-spec"]
     dl --> spec
     prd --> spec
     arch --> spec
+    ux --> spec
     spec --> build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
     build --> mc["ycore-ddd-model-check<br/>code against the model"]
     mc -- "code gives way" --> build
