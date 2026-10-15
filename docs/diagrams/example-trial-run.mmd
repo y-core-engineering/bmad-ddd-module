@@ -9,6 +9,6 @@ flowchart LR
   prd --> spec
   spec --> epics["Epics and stories<br/>epics.md"]
   spine --> epics
-  epics --> next["next step<br/>build, stories 1.1 to 1.3"]
-  next -.-> mc["ycore-ddd-model-check<br/>code against the model"]
-  mc -.-> retro["bmad-retrospective<br/>epic accepted or not"]
+  epics --> build["Build<br/>stories 1.1 to 1.3"]
+  build --> mc["ycore-ddd-model-check<br/>code against the model"]
+  mc --> retro["bmad-retrospective<br/>reads the model check report"]
