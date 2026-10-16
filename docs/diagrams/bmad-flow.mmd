@@ -1,18 +1,42 @@
 flowchart LR
-    brief["bmad-product-brief<br/>or PRFAQ"] --> bp["ycore-ddd-big-picture<br/>contexts, Context Map, glossary"]
-    bp --> dl["ycore-ddd-design-level<br/>Aggregates, invariants, permissions"]
-    bp -. "detailed requirements" .-> prd["bmad-prd"]
-    dl -. "parts built separately" .-> arch["bmad-architecture"]
+    subgraph ycore["ycore-ddd"]
+        direction LR
+        bp["ycore-ddd-big-picture<br/>contexts, Context Map, glossary"]
+        dl["ycore-ddd-design-level<br/>Aggregates, invariants, permissions"]
+        mc["ycore-ddd-model-check<br/>code against the model"]
+    end
+
+    subgraph bmad["BMad"]
+        direction LR
+        brief["bmad-product-brief<br/>or PRFAQ"]
+        prd["bmad-prd"]
+        ux["bmad-ux<br/>DESIGN.md, EXPERIENCE.md"]
+        arch["bmad-architecture"]
+        spec["bmad-spec"]
+        build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
+    end
+
+    brief --> bp
+    bp --> dl
+    bp -. "detailed requirements" .-> prd
+    dl -. "parts built separately" .-> arch
     prd -.-> arch
-    bp -. "user interface" .-> ux["bmad-ux<br/>DESIGN.md, EXPERIENCE.md"]
+    bp -. "user interface" .-> ux
     prd -.-> ux
-    bp --> spec["bmad-spec"]
+    bp --> spec
     dl --> spec
     prd --> spec
     arch --> spec
     ux --> spec
-    spec --> build["bmad-build<br/>(via bmad-ticket when it takes several sessions)"]
-    build --> mc["ycore-ddd-model-check<br/>code against the model"]
+    spec --> build
+    build --> mc
     mc -- "code gives way" --> build
     mc -- "model gives way" --> dl
     dl -. "context cut in question" .-> bp
+
+    classDef ycoreNode fill:#0f5f73,stroke:#0a3f4d,color:#ffffff,stroke-width:2px
+    classDef bmadNode fill:#eef1f4,stroke:#8a96a3,color:#1f2933
+    class bp,dl,mc ycoreNode
+    class brief,prd,ux,arch,spec,build bmadNode
+    style ycore fill:#e3f1f4,stroke:#0f5f73,stroke-width:2px,color:#0a3f4d
+    style bmad fill:#f8f9fa,stroke:#8a96a3,stroke-width:1px,color:#1f2933

@@ -384,7 +384,7 @@ npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --
 
 Then ask the `bmad` skill for `setup`. The scripts in each skill have tests: `uv run python -m unittest discover -s scripts/tests` inside the skill folder.
 
-The diagrams in this README are rendered from their Mermaid sources in `docs/diagrams/*.mmd` to SVG. After changing a source, render it again with the local renderer from the Y-Core tools (`mermaid-render.sh docs/diagrams`) and commit the `.mmd` together with its `.svg`.
+The diagrams in this README are rendered from their Mermaid sources in `docs/diagrams/*.mmd` to SVG. After changing a source, render it again with the local renderer from the Y-Core tools (`mermaid-render.sh docs/diagrams`) and commit the `.mmd` together with its `.svg`. `bmad-flow.svg` gets its swimlanes afterwards from `python3 docs/diagrams/swimlanes.py docs/diagrams/bmad-flow.svg`, since Mermaid cannot align subgraphs or rotate their titles.
 
 ## Licence
 
